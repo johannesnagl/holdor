@@ -25,8 +25,8 @@ struct MenuView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Header
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
                     HStack(spacing: 8) {
                         Circle()
                             .fill(isActive ? Color.green : Color.gray)
@@ -34,41 +34,42 @@ struct MenuView: View {
                         Text(isActive ? "Holding the door" : "Standing by")
                             .font(.system(size: 15, weight: .bold))
                     }
-                    Text(headerSubtitle)
-                        .font(.system(size: 12))
-                        .foregroundColor(.secondary)
+                    Spacer()
+                    Menu {
+                        Button {
+                            monitor.enabled.toggle()
+                        } label: {
+                            Label(monitor.enabled ? "Pause protection" : "Resume protection",
+                                  systemImage: monitor.enabled ? "pause.circle" : "play.circle")
+                        }
+                        Button {
+                            monitor.launchAtLogin.toggle()
+                        } label: {
+                            Label(monitor.launchAtLogin ? "Disable launch at login" : "Launch at login",
+                                  systemImage: monitor.launchAtLogin ? "checkmark.circle" : "arrow.clockwise")
+                        }
+                        Divider()
+                        Button {
+                            NSWorkspace.shared.open(URL(string: "https://holdor.app")!)
+                        } label: {
+                            Label("Go to Website", systemImage: "globe")
+                        }
+                        Divider()
+                        Button(action: onQuit) {
+                            Label("Quit Holdor", systemImage: "power")
+                        }
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .font(.system(size: 13))
+                            .foregroundColor(.secondary)
+                    }
+                    .menuStyle(.borderlessButton)
+                    .fixedSize()
                 }
-                Spacer()
-                Menu {
-                    Button {
-                        monitor.enabled.toggle()
-                    } label: {
-                        Label(monitor.enabled ? "Pause protection" : "Resume protection",
-                              systemImage: monitor.enabled ? "pause.circle" : "play.circle")
-                    }
-                    Button {
-                        monitor.launchAtLogin.toggle()
-                    } label: {
-                        Label(monitor.launchAtLogin ? "Disable launch at login" : "Launch at login",
-                              systemImage: monitor.launchAtLogin ? "checkmark.circle" : "arrow.clockwise")
-                    }
-                    Divider()
-                    Button {
-                        NSWorkspace.shared.open(URL(string: "https://holdor.app")!)
-                    } label: {
-                        Label("Go to Website", systemImage: "globe")
-                    }
-                    Divider()
-                    Button(action: onQuit) {
-                        Label("Quit Holdor", systemImage: "power")
-                    }
-                } label: {
-                    Image(systemName: "gearshape")
-                        .font(.system(size: 13))
-                        .foregroundColor(.secondary)
-                }
-                .menuStyle(.borderlessButton)
-                .fixedSize()
+                Text(headerSubtitle)
+                    .font(.system(size: 12))
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
