@@ -200,9 +200,30 @@ struct MenuView: View {
                 .font(.system(size: 13))
             Spacer()
             Toggle("", isOn: isOn)
-                .toggleStyle(SwitchToggleStyle(tint: .green))
+                .toggleStyle(GreenSwitchStyle())
                 .labelsHidden()
         }
     }
 
+}
+
+struct GreenSwitchStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        let isOn = configuration.isOn
+        HStack {
+            configuration.label
+            ZStack(alignment: isOn ? .trailing : .leading) {
+                Capsule()
+                    .fill(isOn ? Color.green : Color.gray.opacity(0.3))
+                    .frame(width: 40, height: 24)
+                Circle()
+                    .fill(Color.white)
+                    .shadow(radius: 1)
+                    .frame(width: 20, height: 20)
+                    .padding(2)
+            }
+            .animation(.easeInOut(duration: 0.15), value: isOn)
+            .onTapGesture { configuration.isOn.toggle() }
+        }
+    }
 }
