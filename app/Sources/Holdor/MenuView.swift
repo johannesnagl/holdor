@@ -29,13 +29,23 @@ struct MenuView: View {
                         .foregroundColor(.secondary)
                 }
                 Spacer()
-                Button(action: onQuit) {
-                    Image(systemName: "power.circle.fill")
+                Menu {
+                    Button {
+                        NSWorkspace.shared.open(URL(string: "https://holdor.app")!)
+                    } label: {
+                        Label("Go to Website", systemImage: "globe")
+                    }
+                    Divider()
+                    Button(action: onQuit) {
+                        Label("Quit Holdor", systemImage: "power")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle.fill")
                         .font(.system(size: 16))
                         .foregroundColor(.secondary)
                 }
-                .buttonStyle(.plain)
-                .help("Quit Holdor")
+                .menuStyle(.borderlessButton)
+                .fixedSize()
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
