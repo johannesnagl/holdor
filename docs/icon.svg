@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#4ade80"/>
+    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#12121a"/>
+      <stop offset="100%" stop-color="#0a0a0f"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <!-- Door frame -->
+  <rect x="148" y="88" width="216" height="336" rx="12" fill="none" stroke="url(#g)" stroke-width="24"/>
+  <!-- Door panel (slightly open - offset to the right) -->
+  <rect x="172" y="112" width="168" height="288" rx="6" fill="url(#g)" opacity="0.15"/>
+  <!-- Door handle -->
+  <circle cx="312" cy="264" r="18" fill="url(#g)"/>
+  <!-- Light rays coming through (the "open" effect) -->
+  <line x1="364" y1="160" x2="404" y2="140" stroke="#22c55e" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+  <line x1="364" y1="210" x2="414" y2="210" stroke="#22c55e" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+  <line x1="364" y1="260" x2="414" y2="270" stroke="#22c55e" stroke-width="8" stroke-linecap="round" opacity="0.4"/>
+  <line x1="364" y1="310" x2="404" y2="330" stroke="#22c55e" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+</svg>

@@ -21,6 +21,11 @@ mkdir -p "$APP_DIR/Contents/Resources"
 # Copy binary
 cp .build/release/Holdor "$APP_DIR/Contents/MacOS/Holdor"
 
+# Copy app icon
+if [ -f "Sources/Holdor/Resources/AppIcon.icns" ]; then
+    cp Sources/Holdor/Resources/AppIcon.icns "$APP_DIR/Contents/Resources/AppIcon.icns"
+fi
+
 # Create Info.plist
 cat > "$APP_DIR/Contents/Info.plist" << PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -45,6 +50,8 @@ cat > "$APP_DIR/Contents/Info.plist" << PLIST
     <string>13.0</string>
     <key>LSUIElement</key>
     <true/>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>NSHighResolutionCapable</key>
     <true/>
 </dict>
