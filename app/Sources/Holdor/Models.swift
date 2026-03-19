@@ -1,29 +1,17 @@
 import Foundation
 
-struct AgenticApp: Identifiable, Codable, Hashable {
-    let id: String
+struct WatchedApp: Codable, Hashable {
     let name: String
     let bundleIdentifier: String
-    let processName: String
 
-    static let builtIn: [AgenticApp] = [
-        AgenticApp(
-            id: "claude-desktop",
-            name: "Claude Desktop",
-            bundleIdentifier: "com.anthropic.claudefordesktop",
-            processName: "Claude"
-        ),
-        AgenticApp(
-            id: "cursor",
-            name: "Cursor",
-            bundleIdentifier: "com.todesktop.230313mzl4w4u92",
-            processName: "Cursor"
-        ),
-        AgenticApp(
-            id: "windsurf",
-            name: "Windsurf",
-            bundleIdentifier: "com.codeium.windsurf",
-            processName: "Windsurf"
-        ),
+    static let claude = WatchedApp(
+        name: "Claude",
+        bundleIdentifier: "com.anthropic.claudefordesktop"
+    )
+
+    static let allApps: [WatchedApp] = [
+        .claude,
+        WatchedApp(name: "Cursor", bundleIdentifier: "com.todesktop.230313mzl4w4u92"),
+        WatchedApp(name: "Windsurf", bundleIdentifier: "com.codeium.windsurf"),
     ]
 }

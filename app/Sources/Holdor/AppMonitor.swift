@@ -1,118 +1,144 @@
 import AppKit
 import Combine
 import Foundation
+import ServiceManagement
 
 @MainActor
 final class AppMonitor: ObservableObject {
-    @Published var runningStates: [String: Bool] = [:]  // app.id -> is running
-    @Published var caffeinatedApps: Set<String> = []     // app.id set
-    @Published var enabledApps: Set<String> = []         // user-toggled app.id set
+    @Published var isAgentRunning = false
+    @Published var isSleepPrevented = false
+    @Published var agentStartTime: Date?
 
-    private var caffeinateProcesses: [String: Process] = [:]  // app.id -> caffeinate Process
+    @Published var enabled: Bool {
+        didSet { UserDefaults.standard.set(enabled, forKey: "enabled"); refresh() }
+    }
+    @Published var allowDisplaySleep: Bool {
+        didSet { UserDefaults.standard.set(allowDisplaySleep, forKey: "allowDisplaySleep"); restartCaffeinateIfNeeded() }
+    }
+    @Published var launchAtLogin: Bool {
+        didSet {
+            UserDefaults.standard.set(launchAtLogin, forKey: "launchAtLogin")
+            updateLoginItem()
+        }
+    }
+    @Published var watchedApp: WatchedApp {
+        didSet {
+            if let data = try? JSONEncoder().encode(watchedApp) {
+                UserDefaults.standard.set(data, forKey: "watchedApp")
+            }
+            stopCaffeinate()
+            refresh()
+        }
+    }
+
+    private var caffeinateProcess: Process?
     private var timer: Timer?
 
-    let apps: [AgenticApp]
+    init() {
+        self.enabled = UserDefaults.standard.object(forKey: "enabled") as? Bool ?? true
+        self.allowDisplaySleep = UserDefaults.standard.object(forKey: "allowDisplaySleep") as? Bool ?? true
+        self.launchAtLogin = UserDefaults.standard.object(forKey: "launchAtLogin") as? Bool ?? false
 
-    init(apps: [AgenticApp] = AgenticApp.builtIn) {
-        self.apps = apps
-        loadPreferences()
+        if let data = UserDefaults.standard.data(forKey: "watchedApp"),
+           let app = try? JSONDecoder().decode(WatchedApp.self, from: data) {
+            self.watchedApp = app
+        } else {
+            self.watchedApp = .claude
+        }
+
         refresh()
         startMonitoring()
     }
 
-    func toggle(app: AgenticApp) {
-        if enabledApps.contains(app.id) {
-            enabledApps.remove(app.id)
-            stopCaffeinate(for: app)
-        } else {
-            enabledApps.insert(app.id)
-            startCaffeinateIfRunning(for: app)
-        }
-        savePreferences()
+    var elapsedTimeString: String? {
+        guard let start = agentStartTime else { return nil }
+        let seconds = Int(Date().timeIntervalSince(start))
+        if seconds < 60 { return "\(seconds) sec" }
+        return "\(seconds / 60) min"
     }
 
     func refresh() {
         let workspace = NSWorkspace.shared
         let running = workspace.runningApplications
+        let wasRunning = isAgentRunning
+        isAgentRunning = running.contains { $0.bundleIdentifier == watchedApp.bundleIdentifier }
 
-        for app in apps {
-            let isRunning = running.contains { $0.bundleIdentifier == app.bundleIdentifier }
-            runningStates[app.id] = isRunning
-
-            if enabledApps.contains(app.id) {
-                if isRunning && !caffeinatedApps.contains(app.id) {
-                    startCaffeinate(for: app, runningApps: running)
-                } else if !isRunning && caffeinatedApps.contains(app.id) {
-                    stopCaffeinate(for: app)
-                }
-            }
+        if isAgentRunning && !wasRunning {
+            agentStartTime = Date()
+        } else if !isAgentRunning && wasRunning {
+            agentStartTime = nil
         }
-    }
 
-    var activeCaffeinateCount: Int {
-        caffeinatedApps.count
+        if enabled && isAgentRunning && !isSleepPrevented {
+            startCaffeinate(runningApps: running)
+        } else if (!enabled || !isAgentRunning) && isSleepPrevented {
+            stopCaffeinate()
+        }
     }
 
     // MARK: - Private
 
     private func startMonitoring() {
-        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 self?.refresh()
             }
         }
     }
 
-    private func startCaffeinateIfRunning(for app: AgenticApp) {
-        let workspace = NSWorkspace.shared
-        let running = workspace.runningApplications
-        if running.contains(where: { $0.bundleIdentifier == app.bundleIdentifier }) {
-            startCaffeinate(for: app, runningApps: running)
-        }
-    }
-
-    private func startCaffeinate(for app: AgenticApp, runningApps: [NSRunningApplication]) {
-        guard let runningApp = runningApps.first(where: { $0.bundleIdentifier == app.bundleIdentifier }) else {
+    private func startCaffeinate(runningApps: [NSRunningApplication]) {
+        guard let app = runningApps.first(where: { $0.bundleIdentifier == watchedApp.bundleIdentifier }) else {
             return
         }
 
-        let pid = runningApp.processIdentifier
+        let pid = app.processIdentifier
+        var args = ["-i", "-w", "\(pid)"]
+        if !allowDisplaySleep {
+            args.insert("-d", at: 0)
+        }
 
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/caffeinate")
-        process.arguments = ["-i", "-w", "\(pid)"]
+        process.arguments = args
 
         do {
             try process.run()
-            caffeinateProcesses[app.id] = process
-            caffeinatedApps.insert(app.id)
+            caffeinateProcess = process
+            isSleepPrevented = true
         } catch {
-            print("Failed to start caffeinate for \(app.name): \(error)")
+            print("Failed to start caffeinate: \(error)")
         }
     }
 
-    private func stopCaffeinate(for app: AgenticApp) {
-        if let process = caffeinateProcesses[app.id] {
-            process.terminate()
-            caffeinateProcesses.removeValue(forKey: app.id)
+    private func stopCaffeinate() {
+        caffeinateProcess?.terminate()
+        caffeinateProcess = nil
+        isSleepPrevented = false
+    }
+
+    private func restartCaffeinateIfNeeded() {
+        if isSleepPrevented {
+            stopCaffeinate()
+            refresh()
         }
-        caffeinatedApps.remove(app.id)
     }
 
-    private func savePreferences() {
-        UserDefaults.standard.set(Array(enabledApps), forKey: "enabledApps")
-    }
-
-    private func loadPreferences() {
-        if let saved = UserDefaults.standard.stringArray(forKey: "enabledApps") {
-            enabledApps = Set(saved)
+    private func updateLoginItem() {
+        if #available(macOS 13.0, *) {
+            do {
+                if launchAtLogin {
+                    try SMAppService.mainApp.register()
+                } else {
+                    try SMAppService.mainApp.unregister()
+                }
+            } catch {
+                print("Failed to update login item: \(error)")
+            }
         }
     }
 
     deinit {
         timer?.invalidate()
-        for (_, process) in caffeinateProcesses {
-            process.terminate()
-        }
+        caffeinateProcess?.terminate()
     }
 }
