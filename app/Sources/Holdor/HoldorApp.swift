@@ -3,7 +3,7 @@ import Combine
 import SwiftUI
 
 @main
-struct AgentGuardApp: App {
+struct HoldorApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
@@ -26,7 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "cup.and.saucer.fill", accessibilityDescription: "AgentGuard")
+            button.image = NSImage(systemSymbolName: "door.left.hand.closed", accessibilityDescription: "Holdor")
             button.action = #selector(toggleMenu)
             button.target = self
         }
@@ -51,18 +51,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func updateMenu() {
         let menu = NSMenu()
 
-        let headerItem = NSMenuItem(title: "AgentGuard", action: nil, keyEquivalent: "")
+        let headerItem = NSMenuItem(title: "Holdor", action: nil, keyEquivalent: "")
         headerItem.isEnabled = false
         headerItem.attributedTitle = NSAttributedString(
-            string: "AgentGuard",
+            string: "Holdor",
             attributes: [.font: NSFont.boldSystemFont(ofSize: 13)]
         )
         menu.addItem(headerItem)
 
         let count = monitor.activeCaffeinateCount
         let statusText = count > 0
-            ? "\(count) app\(count == 1 ? "" : "s") caffeinated"
-            : "No apps caffeinated"
+            ? "Holding the door for \(count) app\(count == 1 ? "" : "s")"
+            : "No apps protected"
         let statusMenuItem = NSMenuItem(title: statusText, action: nil, keyEquivalent: "")
         statusMenuItem.isEnabled = false
         menu.addItem(statusMenuItem)
@@ -78,7 +78,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if !isRunning {
                 title += " (not running)"
             } else if isCaffeinated {
-                title += " (caffeinated)"
+                title += " (holding)"
             }
 
             let item = NSMenuItem(title: title, action: #selector(appToggled(_:)), keyEquivalent: "")
@@ -91,15 +91,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(NSMenuItem.separator())
 
-        let quitItem = NSMenuItem(title: "Quit AgentGuard", action: #selector(quitApp), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "Quit Holdor", action: #selector(quitApp), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
 
         self.statusItem.menu = menu
 
         if let button = self.statusItem.button {
-            let symbolName = count > 0 ? "cup.and.saucer.fill" : "cup.and.saucer"
-            button.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: "AgentGuard")
+            let symbolName = count > 0 ? "door.left.hand.open" : "door.left.hand.closed"
+            button.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: "Holdor")
         }
     }
 

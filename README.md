@@ -1,6 +1,6 @@
-# AgentGuard
+# Holdor
 
-**Keep your AI agents awake.**
+**Holds the door. So your agents don't have to stop.**
 
 A native macOS menu bar app that prevents your system from sleeping while agentic AI tools (Claude Desktop, Cursor, Windsurf) are running. Lock your screen, walk away, and your agents keep working.
 
@@ -10,13 +10,13 @@ Company security policies require locking your screen when you step away. But wh
 
 ## How It Works
 
-AgentGuard uses macOS's built-in `caffeinate` command, tied to each app's process ID (`caffeinate -i -w <PID>`). This prevents idle sleep while allowing the display to sleep normally. When the watched app quits, the caffeinate assertion is automatically released.
+Holdor uses macOS's built-in `caffeinate` command, tied to each app's process ID (`caffeinate -i -w <PID>`). This prevents idle sleep while allowing the display to sleep normally. When the watched app quits, the caffeinate assertion is automatically released.
 
 ## Features
 
-- Lives in the menu bar (no dock icon, no windows)
+- Lives in the menu bar (door icon: closed = idle, open = holding)
 - Auto-detects supported running apps
-- Toggle caffeination per app
+- Toggle protection per app
 - Remembers your preferences across restarts
 - Native Swift — no Electron, no runtime overhead
 
@@ -35,12 +35,12 @@ cd app
 swift build -c release
 ```
 
-The binary will be at `app/.build/release/AgentGuard`.
+The binary will be at `app/.build/release/Holdor`.
 
 ## Running
 
 ```bash
-./app/.build/release/AgentGuard
+./app/.build/release/Holdor
 ```
 
 Or copy it to `/Applications` and add to Login Items.

@@ -94,6 +94,11 @@ nav {
     margin-bottom: 20px;
 }
 
+.hero-accent {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
 .hero-sub {
     font-size: 18px;
     color: var(--text-muted);

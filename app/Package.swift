@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "AgentGuard",
+    name: "Holdor",
     platforms: [.macOS(.v13)],
     targets: [
         .executableTarget(
-            name: "AgentGuard",
-            path: "Sources/AgentGuard"
+            name: "Holdor",
+            path: "Sources/Holdor"
         )
     ]
 )
