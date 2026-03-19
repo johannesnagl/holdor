@@ -40,8 +40,8 @@ struct MenuView: View {
                         Label("Quit Holdor", systemImage: "power")
                     }
                 } label: {
-                    Image(systemName: "ellipsis.circle.fill")
-                        .font(.system(size: 16))
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.secondary)
                 }
                 .menuStyle(.borderlessButton)
