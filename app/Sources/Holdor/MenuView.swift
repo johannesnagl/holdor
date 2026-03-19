@@ -44,6 +44,13 @@ struct MenuView: View {
                 Spacer()
                 Menu {
                     Button {
+                        monitor.enabled.toggle()
+                    } label: {
+                        Label(monitor.enabled ? "Pause protection" : "Resume protection",
+                              systemImage: monitor.enabled ? "pause.circle" : "play.circle")
+                    }
+                    Divider()
+                    Button {
                         NSWorkspace.shared.open(URL(string: "https://holdor.app")!)
                     } label: {
                         Label("Go to Website", systemImage: "globe")
@@ -132,20 +139,34 @@ struct MenuView: View {
 
             Divider().padding(.horizontal, 8)
 
-            // Toggles
+            // Settings
             VStack(spacing: 6) {
-                VStack(alignment: .leading, spacing: 2) {
-                    toggleRow("Prevent sleep", isOn: $monitor.enabled)
-                    Text(monitor.enabled
-                         ? "Agents keep running when you lock the screen"
-                         : "Mac sleeps normally, agents may be interrupted")
-                        .font(.system(size: 11))
-                        .foregroundColor(.secondary)
-                }
                 toggleRow("Launch at login", isOn: $monitor.launchAtLogin)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
+
+            // Paused warning
+            if !monitor.enabled {
+                HStack(spacing: 6) {
+                    Image(systemName: "pause.circle.fill")
+                        .font(.system(size: 12))
+                        .foregroundColor(.orange)
+                    Text("Protection paused")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.orange)
+                    Spacer()
+                    Button("Resume") {
+                        monitor.enabled = true
+                    }
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(.green)
+                    .buttonStyle(.plain)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Color.orange.opacity(0.1))
+            }
 
             Divider().padding(.horizontal, 8)
 
