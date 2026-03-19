@@ -7,7 +7,6 @@ import ServiceManagement
 final class AppMonitor: ObservableObject {
     @Published var isAgentRunning = false
     @Published var isSleepPrevented = false
-    @Published var agentStartTime: Date?
 
     @Published var enabled: Bool {
         didSet { UserDefaults.standard.set(enabled, forKey: "enabled"); refresh() }
@@ -51,24 +50,10 @@ final class AppMonitor: ObservableObject {
         startMonitoring()
     }
 
-    var elapsedTimeString: String? {
-        guard let start = agentStartTime else { return nil }
-        let seconds = Int(Date().timeIntervalSince(start))
-        if seconds < 60 { return "\(seconds) sec" }
-        return "\(seconds / 60) min"
-    }
-
     func refresh() {
         let workspace = NSWorkspace.shared
         let running = workspace.runningApplications
-        let wasRunning = isAgentRunning
         isAgentRunning = running.contains { $0.bundleIdentifier == watchedApp.bundleIdentifier }
-
-        if isAgentRunning && !wasRunning {
-            agentStartTime = Date()
-        } else if !isAgentRunning && wasRunning {
-            agentStartTime = nil
-        }
 
         if enabled && isAgentRunning && !isSleepPrevented {
             startCaffeinate(runningApps: running)

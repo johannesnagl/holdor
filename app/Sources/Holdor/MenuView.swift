@@ -59,15 +59,9 @@ struct MenuView: View {
                 }
 
                 statusRow("Agentic App is running") {
-                    if monitor.isAgentRunning, let elapsed = monitor.elapsedTimeString {
-                        Text("Yes \u{00B7} \(elapsed)")
-                            .font(.system(size: 13, weight: .medium))
-                            .foregroundColor(.green)
-                    } else {
-                        Text("No")
-                            .font(.system(size: 13))
-                            .foregroundColor(.secondary)
-                    }
+                    Text(monitor.isAgentRunning ? "Yes" : "No")
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundColor(monitor.isAgentRunning ? .green : .secondary)
                 }
 
 
