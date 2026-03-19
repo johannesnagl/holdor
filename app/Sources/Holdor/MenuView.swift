@@ -70,11 +70,7 @@ struct MenuView: View {
                     }
                 }
 
-                statusRow("Sleep prevented") {
-                    Text(monitor.isSleepPrevented ? "Active" : "Inactive")
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(monitor.isSleepPrevented ? .green : .secondary)
-                }
+
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
