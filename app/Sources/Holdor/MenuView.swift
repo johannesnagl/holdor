@@ -10,6 +10,21 @@ struct MenuView: View {
 
     private var isActive: Bool { monitor.isSleepPrevented }
 
+    private var headerSubtitle: String {
+        if !monitor.enabled {
+            return "Protection disabled \u{00B7} Mac sleeps normally"
+        }
+        let running = monitor.watchedRunningCount
+        let watched = monitor.watchedApps.count
+        if watched == 0 {
+            return "No apps selected \u{00B7} Add apps to watch"
+        }
+        if running == 0 {
+            return "0 of \(watched) watched app\(watched == 1 ? "" : "s") running"
+        }
+        return "Sleep blocked \u{00B7} Screen lock still active"
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Header
@@ -22,9 +37,7 @@ struct MenuView: View {
                         Text(isActive ? "Holding the door" : "Standing by")
                             .font(.system(size: 15, weight: .bold))
                     }
-                    Text(isActive
-                         ? "Sleep blocked \u{00B7} Screen lock still active"
-                         : "No agent detected \u{00B7} Mac sleeps normally")
+                    Text(headerSubtitle)
                         .font(.system(size: 12))
                         .foregroundColor(.secondary)
                 }
@@ -40,8 +53,8 @@ struct MenuView: View {
                         Label("Quit Holdor", systemImage: "power")
                     }
                 } label: {
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 12, weight: .medium))
+                    Image(systemName: "gearshape")
+                        .font(.system(size: 13))
                         .foregroundColor(.secondary)
                 }
                 .menuStyle(.borderlessButton)
@@ -59,12 +72,11 @@ struct MenuView: View {
                     .foregroundColor(.secondary)
 
                 ForEach(WatchedApp.allApps, id: \.bundleIdentifier) { app in
-                    appRow(app)
+                    appRow(app, removable: false)
                 }
 
-                // Custom watched apps (not in allApps)
                 ForEach(customApps, id: \.bundleIdentifier) { app in
-                    appRow(app)
+                    appRow(app, removable: true)
                 }
 
                 Button {
@@ -123,7 +135,7 @@ struct MenuView: View {
             // Toggles
             VStack(spacing: 6) {
                 VStack(alignment: .leading, spacing: 2) {
-                    toggleRow("Enable Holdor", isOn: $monitor.enabled)
+                    toggleRow("Prevent sleep", isOn: $monitor.enabled)
                     Text(monitor.enabled
                          ? "Agents keep running when you lock the screen"
                          : "Mac sleeps normally, agents may be interrupted")
@@ -142,12 +154,12 @@ struct MenuView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "lock.fill")
                         .font(.system(size: 14))
-                    Text("Lock Screen")
+                    Text(monitor.enabled ? "Lock Screen" : "Lock Screen (unprotected)")
                         .font(.system(size: 13, weight: .semibold))
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
-                .background(Color.green)
+                .background(monitor.enabled ? Color.green : Color.orange)
                 .foregroundColor(.black)
                 .cornerRadius(8)
             }
@@ -164,7 +176,7 @@ struct MenuView: View {
         return monitor.watchedApps.filter { !builtInIDs.contains($0.bundleIdentifier) }.sorted { $0.name < $1.name }
     }
 
-    private func appRow(_ app: WatchedApp) -> some View {
+    private func appRow(_ app: WatchedApp, removable: Bool) -> some View {
         HStack {
             Button {
                 monitor.toggleApp(app)
@@ -179,9 +191,22 @@ struct MenuView: View {
             }
             .buttonStyle(.plain)
             Spacer()
-            Circle()
-                .fill(monitor.isRunning(app) ? Color.green : Color.gray.opacity(0.4))
-                .frame(width: 7, height: 7)
+            HStack(spacing: 8) {
+                Circle()
+                    .fill(monitor.isRunning(app) ? Color.green : Color.gray.opacity(0.4))
+                    .frame(width: 7, height: 7)
+                if removable {
+                    Button {
+                        monitor.removeCustomApp(app)
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundColor(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                    .help("Remove \(app.name)")
+                }
+            }
         }
     }
 

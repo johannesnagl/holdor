@@ -5,7 +5,7 @@ import ServiceManagement
 
 @MainActor
 final class AppMonitor: ObservableObject {
-    @Published var runningApps: Set<String> = []        // bundleIDs currently running
+    @Published var runningBundleIDs: Set<String> = []   // all known apps currently running (regardless of watch state)
     @Published var caffeinatedApps: Set<String> = []    // bundleIDs with active caffeinate
     @Published var watchedApps: Set<WatchedApp> = []    // user-selected apps to watch
 
@@ -19,10 +19,19 @@ final class AppMonitor: ObservableObject {
         }
     }
 
-    private var caffeinateProcesses: [String: Process] = [:]  // bundleID -> Process
+    private var caffeinateProcesses: [String: Process] = [:]
     private var timer: Timer?
 
-    var anyAgentRunning: Bool { !runningApps.isEmpty }
+    var allKnownApps: [WatchedApp] {
+        let builtInIDs = Set(WatchedApp.allApps.map(\.bundleIdentifier))
+        let custom = watchedApps.filter { !builtInIDs.contains($0.bundleIdentifier) }
+        return WatchedApp.allApps + custom.sorted { $0.name < $1.name }
+    }
+
+    var watchedRunningCount: Int {
+        watchedApps.filter { runningBundleIDs.contains($0.bundleIdentifier) }.count
+    }
+
     var isSleepPrevented: Bool { !caffeinatedApps.isEmpty }
 
     init() {
@@ -61,7 +70,7 @@ final class AppMonitor: ObservableObject {
     }
 
     func isRunning(_ app: WatchedApp) -> Bool {
-        runningApps.contains(app.bundleIdentifier)
+        runningBundleIDs.contains(app.bundleIdentifier)
     }
 
     func addCustomApp(_ app: WatchedApp) {
@@ -70,29 +79,41 @@ final class AppMonitor: ObservableObject {
         refresh()
     }
 
+    func removeCustomApp(_ app: WatchedApp) {
+        watchedApps.remove(app)
+        stopCaffeinate(for: app.bundleIdentifier)
+        saveWatchedApps()
+        refresh()
+    }
+
+    var isCustomApp: (WatchedApp) -> Bool {
+        let builtInIDs = Set(WatchedApp.allApps.map(\.bundleIdentifier))
+        return { !builtInIDs.contains($0.bundleIdentifier) }
+    }
+
     func refresh() {
         let workspace = NSWorkspace.shared
         let running = workspace.runningApplications
 
+        // Check running state for ALL known apps (built-in + custom), not just watched
         var newRunning = Set<String>()
-        for app in watchedApps {
+        for app in allKnownApps {
             if running.contains(where: { $0.bundleIdentifier == app.bundleIdentifier }) {
                 newRunning.insert(app.bundleIdentifier)
             }
         }
-        runningApps = newRunning
+        runningBundleIDs = newRunning
+
+        let watchedBundleIDs = Set(watchedApps.map(\.bundleIdentifier))
 
         if enabled {
-            // Start caffeinate for newly running watched apps
-            for bundleID in runningApps where !caffeinatedApps.contains(bundleID) {
+            for bundleID in watchedBundleIDs where runningBundleIDs.contains(bundleID) && !caffeinatedApps.contains(bundleID) {
                 startCaffeinate(bundleID: bundleID, runningApps: running)
             }
-            // Stop caffeinate for apps no longer running
-            for bundleID in caffeinatedApps where !runningApps.contains(bundleID) {
+            for bundleID in caffeinatedApps where !runningBundleIDs.contains(bundleID) || !watchedBundleIDs.contains(bundleID) {
                 stopCaffeinate(for: bundleID)
             }
         } else {
-            // Stop all if disabled
             for bundleID in caffeinatedApps {
                 stopCaffeinate(for: bundleID)
             }

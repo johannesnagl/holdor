@@ -37,10 +37,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             onQuit: { NSApp.terminate(nil) }
         )
 
+        let hostingController = NSHostingController(rootView: menuView)
+        hostingController.view.setFrameSize(hostingController.sizeThatFits(in: NSSize(width: 300, height: 10000)))
+
         popover = NSPopover()
-        popover.contentSize = NSSize(width: 300, height: 380)
+        popover.contentSize = NSSize(width: 300, height: 0)
         popover.behavior = .transient
-        popover.contentViewController = NSHostingController(rootView: menuView)
+        popover.contentViewController = hostingController
 
         Publishers.CombineLatest(monitor.$caffeinatedApps, monitor.$enabled)
             .receive(on: RunLoop.main)
