@@ -140,6 +140,19 @@ nav {
     margin-bottom: 20px;
 }
 
+.hero-name {
+    display: block;
+    font-size: clamp(56px, 10vw, 88px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--accent) 0%, #4ade80 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .hero-accent {
     color: var(--text-muted);
     font-weight: 400;
@@ -468,6 +481,10 @@ footer a:hover {
 
     .hero h1 {
         font-size: 32px;
+    }
+
+    .hero-name {
+        font-size: 48px;
     }
 
     .hero-sub {
