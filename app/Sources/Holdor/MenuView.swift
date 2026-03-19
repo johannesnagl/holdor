@@ -54,6 +54,11 @@ struct MenuView: View {
                         } label: {
                             Label("Go to Website", systemImage: "globe")
                         }
+                        Button {
+                            NSWorkspace.shared.open(URL(string: "https://paypal.me/jollife")!)
+                        } label: {
+                            Label("Buy me a Pasta", systemImage: "fork.knife")
+                        }
                         Divider()
                         Button(action: onQuit) {
                             Label("Quit Holdor", systemImage: "power")

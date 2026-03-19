@@ -57,6 +57,10 @@ The binary will be at `app/.build/release/Holdor`.
 
 Or copy it to `/Applications` and add to Login Items.
 
+## Support
+
+If Holdor saves you from carrying your laptop around, [buy me a pasta](https://paypal.me/jollife).
+
 ## License
 
 MIT
