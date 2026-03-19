@@ -114,6 +114,26 @@ struct MenuView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
 
+            Divider().padding(.horizontal, 8)
+
+            // Lock screen button
+            Button(action: lockScreen) {
+                HStack(spacing: 8) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 14))
+                    Text("Lock Screen")
+                        .font(.system(size: 13, weight: .semibold))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .background(Color.green)
+                .foregroundColor(.black)
+                .cornerRadius(8)
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+
         }
         .frame(width: 300)
     }
@@ -165,6 +185,13 @@ struct MenuView: View {
             Spacer()
             value()
         }
+    }
+
+    private func lockScreen() {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/pmset")
+        process.arguments = ["displaysleepnow"]
+        try? process.run()
     }
 
     private func toggleRow(_ label: String, isOn: Binding<Bool>) -> some View {
