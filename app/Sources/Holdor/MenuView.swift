@@ -5,6 +5,10 @@ struct MenuView: View {
     let onPreferences: () -> Void
     let onQuit: () -> Void
 
+    @State private var showCustomInput = false
+    @State private var customName = ""
+    @State private var customBundleID = ""
+
     private var isActive: Bool { monitor.isSleepPrevented }
 
     var body: some View {
@@ -32,17 +36,7 @@ struct MenuView: View {
             // Status rows
             VStack(spacing: 8) {
                 statusRow("Watching") {
-                    HStack(spacing: 4) {
-                        Circle()
-                            .fill(monitor.isAgentRunning ? Color.green : Color.gray)
-                            .frame(width: 6, height: 6)
-                        Text(monitor.watchedApp.name)
-                            .font(.system(size: 13))
-                    }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.primary.opacity(0.08))
-                    .cornerRadius(6)
+                    appPicker
                 }
 
                 statusRow("Agent running") {
@@ -66,6 +60,40 @@ struct MenuView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
 
+            // Custom app input
+            if showCustomInput {
+                Divider().padding(.horizontal, 8)
+                VStack(spacing: 6) {
+                    TextField("App name", text: $customName)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.system(size: 12))
+                    TextField("Bundle ID (e.g. com.example.app)", text: $customBundleID)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.system(size: 12))
+                    HStack {
+                        Button("Cancel") {
+                            showCustomInput = false
+                            customName = ""
+                            customBundleID = ""
+                        }
+                        .font(.system(size: 12))
+                        Spacer()
+                        Button("Watch") {
+                            if !customName.isEmpty && !customBundleID.isEmpty {
+                                monitor.watchedApp = WatchedApp(name: customName, bundleIdentifier: customBundleID)
+                                showCustomInput = false
+                                customName = ""
+                                customBundleID = ""
+                            }
+                        }
+                        .font(.system(size: 12, weight: .medium))
+                        .disabled(customName.isEmpty || customBundleID.isEmpty)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+            }
+
             Divider().padding(.horizontal, 8)
 
             // Toggles
@@ -88,6 +116,45 @@ struct MenuView: View {
             .padding(.vertical, 6)
         }
         .frame(width: 300)
+    }
+
+    private var appPicker: some View {
+        Menu {
+            ForEach(WatchedApp.allApps, id: \.bundleIdentifier) { app in
+                Button {
+                    showCustomInput = false
+                    monitor.watchedApp = app
+                } label: {
+                    HStack {
+                        Text(app.name)
+                        if monitor.watchedApp == app {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                }
+            }
+            Divider()
+            Button("Custom...") {
+                showCustomInput = true
+            }
+        } label: {
+            HStack(spacing: 4) {
+                Circle()
+                    .fill(monitor.isAgentRunning ? Color.green : Color.gray)
+                    .frame(width: 6, height: 6)
+                Text(monitor.watchedApp.name)
+                    .font(.system(size: 13))
+                Image(systemName: "chevron.up.chevron.down")
+                    .font(.system(size: 8))
+                    .foregroundColor(.secondary)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(Color.primary.opacity(0.08))
+            .cornerRadius(6)
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
     }
 
     private func statusRow<Content: View>(_ label: String, @ViewBuilder value: () -> Content) -> some View {
