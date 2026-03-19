@@ -1,0 +1,41 @@
+# Holdor
+
+> Holds the door. So your agents don't have to stop.
+
+Holdor is a free, open-source native macOS menu bar app that prevents your system from sleeping while agentic AI tools are running.
+
+## Problem
+Company security policies require locking your screen when you step away. But when macOS locks, it eventually sleeps — killing long-running AI agents like Claude, Cursor, Windsurf, and VS Code coding assistants. The workaround of carrying your laptop everywhere is absurd.
+
+## How It Works
+Holdor uses macOS's built-in `caffeinate` command, tied to each app's process ID (`caffeinate -i -w <PID>`). This prevents idle sleep while allowing the display to sleep normally. When the watched app quits, the caffeinate assertion is automatically released.
+
+## Features
+- Native macOS menu bar app (Swift/SwiftUI, no Electron)
+- Watches multiple apps simultaneously
+- Auto-detects when apps launch or quit
+- Built-in support for Claude, Cursor, Windsurf, VS Code, Zed, ChatGPT, and Warp
+- Add any custom app via native Finder file picker
+- Built-in Lock Screen button
+- Pause/resume protection
+- Launch at login support
+- Remembers preferences across restarts
+
+## Technical Details
+- Platform: macOS 13 (Ventura) or later
+- Architecture: ARM64 (Apple Silicon)
+- Language: Swift 5.9+
+- Build system: Swift Package Manager
+- License: MIT
+- Repository: https://github.com/johannesnagl/holdor.app
+- Website: https://holdor.app
+- Download: https://github.com/johannesnagl/holdor.app/releases
+
+## Building
+```bash
+cd app
+swift build -c release
+```
+
+## Author
+Johannes Nagl — https://github.com/johannesnagl
