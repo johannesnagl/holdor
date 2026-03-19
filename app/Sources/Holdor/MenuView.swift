@@ -200,8 +200,7 @@ struct MenuView: View {
                 .font(.system(size: 13))
             Spacer()
             Toggle("", isOn: isOn)
-                .toggleStyle(.switch)
-                .tint(.green)
+                .toggleStyle(SwitchToggleStyle(tint: .green))
                 .labelsHidden()
         }
     }
