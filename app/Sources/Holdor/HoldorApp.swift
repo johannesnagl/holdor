@@ -42,10 +42,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         popover.behavior = .transient
         popover.contentViewController = NSHostingController(rootView: menuView)
 
-        Publishers.CombineLatest(monitor.$isSleepPrevented, monitor.$enabled)
+        Publishers.CombineLatest(monitor.$caffeinatedApps, monitor.$enabled)
             .receive(on: RunLoop.main)
-            .sink { [weak self] sleepPrevented, enabled in
-                self?.updateIcon(active: sleepPrevented && enabled)
+            .sink { [weak self] caffeinated, enabled in
+                self?.updateIcon(active: !caffeinated.isEmpty && enabled)
             }
             .store(in: &cancellables)
 

@@ -52,19 +52,34 @@ struct MenuView: View {
 
             Divider().padding(.horizontal, 8)
 
-            // Status rows
-            VStack(spacing: 8) {
-                statusRow("Watching") {
-                    appPicker
+            // Watching section
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Watching")
+                    .font(.system(size: 13))
+                    .foregroundColor(.secondary)
+
+                ForEach(WatchedApp.allApps, id: \.bundleIdentifier) { app in
+                    appRow(app)
                 }
 
-                statusRow("Agentic App is running") {
-                    Text(monitor.isAgentRunning ? "Yes" : "No")
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(monitor.isAgentRunning ? .green : .secondary)
+                // Custom watched apps (not in allApps)
+                ForEach(customApps, id: \.bundleIdentifier) { app in
+                    appRow(app)
                 }
 
-
+                Button {
+                    showCustomInput = true
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 12))
+                        Text("Add custom app")
+                            .font(.system(size: 12))
+                    }
+                    .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 2)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
@@ -87,9 +102,9 @@ struct MenuView: View {
                         }
                         .font(.system(size: 12))
                         Spacer()
-                        Button("Watch") {
+                        Button("Add") {
                             if !customName.isEmpty && !customBundleID.isEmpty {
-                                monitor.watchedApp = WatchedApp(name: customName, bundleIdentifier: customBundleID)
+                                monitor.addCustomApp(WatchedApp(name: customName, bundleIdentifier: customBundleID))
                                 showCustomInput = false
                                 customName = ""
                                 customBundleID = ""
@@ -144,43 +159,32 @@ struct MenuView: View {
         .frame(width: 300)
     }
 
-    private var appPicker: some View {
-        Menu {
-            ForEach(WatchedApp.allApps, id: \.bundleIdentifier) { app in
-                Button {
-                    showCustomInput = false
-                    monitor.watchedApp = app
-                } label: {
-                    HStack {
-                        Text(app.name)
-                        if monitor.watchedApp == app {
-                            Image(systemName: "checkmark")
-                        }
-                    }
+    private var customApps: [WatchedApp] {
+        let builtInIDs = Set(WatchedApp.allApps.map(\.bundleIdentifier))
+        return monitor.watchedApps.filter { !builtInIDs.contains($0.bundleIdentifier) }.sorted { $0.name < $1.name }
+    }
+
+    private func appRow(_ app: WatchedApp) -> some View {
+        HStack {
+            Button {
+                monitor.toggleApp(app)
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: monitor.isWatching(app) ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(monitor.isWatching(app) ? .green : .secondary)
+                        .font(.system(size: 14))
+                    Text(app.name)
+                        .font(.system(size: 13))
                 }
             }
-            Divider()
-            Button("Custom...") {
-                showCustomInput = true
-            }
-        } label: {
-            HStack(spacing: 4) {
+            .buttonStyle(.plain)
+            Spacer()
+            if monitor.isWatching(app) {
                 Circle()
-                    .fill(monitor.isAgentRunning ? Color.green : Color.gray)
-                    .frame(width: 6, height: 6)
-                Text(monitor.watchedApp.name)
-                    .font(.system(size: 13))
-                Image(systemName: "chevron.up.chevron.down")
-                    .font(.system(size: 8))
-                    .foregroundColor(.secondary)
+                    .fill(monitor.isRunning(app) ? Color.green : Color.gray.opacity(0.4))
+                    .frame(width: 7, height: 7)
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(Color.primary.opacity(0.08))
-            .cornerRadius(6)
         }
-        .menuStyle(.borderlessButton)
-        .fixedSize()
     }
 
     private func statusRow<Content: View>(_ label: String, @ViewBuilder value: () -> Content) -> some View {
