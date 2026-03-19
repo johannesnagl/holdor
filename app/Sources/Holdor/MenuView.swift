@@ -58,7 +58,7 @@ struct MenuView: View {
                     appPicker
                 }
 
-                statusRow("Agent running") {
+                statusRow("Agentic App is running") {
                     if monitor.isAgentRunning, let elapsed = monitor.elapsedTimeString {
                         Text("Yes \u{00B7} \(elapsed)")
                             .font(.system(size: 13, weight: .medium))
