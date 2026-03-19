@@ -4,9 +4,6 @@ struct MenuView: View {
     @ObservedObject var monitor: AppMonitor
     let onQuit: () -> Void
 
-    @State private var showCustomInput = false
-    @State private var customName = ""
-    @State private var customBundleID = ""
 
     private var isActive: Bool { monitor.isSleepPrevented }
 
@@ -92,13 +89,11 @@ struct MenuView: View {
                     appRow(app, removable: true)
                 }
 
-                Button {
-                    showCustomInput = true
-                } label: {
+                Button(action: pickApp) {
                     HStack(spacing: 4) {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 12))
-                        Text("Add custom app")
+                        Text("Add app...")
                             .font(.system(size: 12))
                     }
                     .foregroundColor(.secondary)
@@ -108,40 +103,6 @@ struct MenuView: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
-
-            // Custom app input
-            if showCustomInput {
-                Divider().padding(.horizontal, 8)
-                VStack(spacing: 6) {
-                    TextField("App name", text: $customName)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.system(size: 12))
-                    TextField("Bundle ID (e.g. com.example.app)", text: $customBundleID)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.system(size: 12))
-                    HStack {
-                        Button("Cancel") {
-                            showCustomInput = false
-                            customName = ""
-                            customBundleID = ""
-                        }
-                        .font(.system(size: 12))
-                        Spacer()
-                        Button("Add") {
-                            if !customName.isEmpty && !customBundleID.isEmpty {
-                                monitor.addCustomApp(WatchedApp(name: customName, bundleIdentifier: customBundleID))
-                                showCustomInput = false
-                                customName = ""
-                                customBundleID = ""
-                            }
-                        }
-                        .font(.system(size: 12, weight: .medium))
-                        .disabled(customName.isEmpty || customBundleID.isEmpty)
-                    }
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-            }
 
             // Paused warning
             if !monitor.enabled {
@@ -187,6 +148,25 @@ struct MenuView: View {
 
         }
         .frame(width: 300)
+    }
+
+    private func pickApp() {
+        let panel = NSOpenPanel()
+        panel.title = "Choose an application"
+        panel.allowedContentTypes = [.application]
+        panel.allowsMultipleSelection = false
+        panel.directoryURL = URL(fileURLWithPath: "/Applications")
+
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+
+        let bundle = Bundle(url: url)
+        guard let bundleID = bundle?.bundleIdentifier else { return }
+        let name = bundle?.infoDictionary?["CFBundleName"] as? String
+            ?? bundle?.infoDictionary?["CFBundleDisplayName"] as? String
+            ?? url.deletingPathExtension().lastPathComponent
+
+        let app = WatchedApp(name: name, bundleIdentifier: bundleID)
+        monitor.addCustomApp(app)
     }
 
     private var customApps: [WatchedApp] {
