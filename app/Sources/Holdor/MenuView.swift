@@ -117,7 +117,14 @@ struct MenuView: View {
 
             // Toggles
             VStack(spacing: 6) {
-                toggleRow("Enable Holdor", isOn: $monitor.enabled)
+                VStack(alignment: .leading, spacing: 2) {
+                    toggleRow("Enable Holdor", isOn: $monitor.enabled)
+                    Text(monitor.enabled
+                         ? "Agents keep running when you lock the screen"
+                         : "Mac sleeps normally, agents may be interrupted")
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary)
+                }
                 toggleRow("Launch at login", isOn: $monitor.launchAtLogin)
             }
             .padding(.horizontal, 16)
