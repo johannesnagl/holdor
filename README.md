@@ -2,7 +2,7 @@
 
 **Holds the door. So your agents don't have to stop.**
 
-A native macOS menu bar app that prevents your system from sleeping while agentic AI tools (Claude Desktop, Cursor, Windsurf) are running. Lock your screen, walk away, and your agents keep working.
+A native macOS menu bar app that prevents your system from sleeping while agentic AI tools are running. Lock your screen, walk away, and your agents keep working.
 
 ## The Problem
 
@@ -15,16 +15,28 @@ Holdor uses macOS's built-in `caffeinate` command, tied to each app's process ID
 ## Features
 
 - Lives in the menu bar (door icon: closed = idle, open = holding)
-- Auto-detects supported running apps
-- Toggle protection per app
+- Watch multiple apps simultaneously
+- Auto-detects when apps launch or quit
+- Add any app via native Finder file picker
+- Built-in Lock Screen button
+- Pause/resume protection from the gear menu
+- Launch at login support
 - Remembers your preferences across restarts
 - Native Swift — no Electron, no runtime overhead
 
 ## Supported Apps
 
+Built-in support for 7 apps:
+
 - Claude Desktop
 - Cursor
 - Windsurf
+- VS Code
+- Zed
+- ChatGPT
+- Warp
+
+Add any other app via the "Add app..." button.
 
 ## Building
 
