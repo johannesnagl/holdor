@@ -30,7 +30,7 @@ struct MenuView: View {
                 }
                 Spacer()
                 Button(action: onQuit) {
-                    Image(systemName: "xmark.circle.fill")
+                    Image(systemName: "power.circle.fill")
                         .font(.system(size: 16))
                         .foregroundColor(.secondary)
                 }
