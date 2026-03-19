@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MenuView: View {
     @ObservedObject var monitor: AppMonitor
-    let onPreferences: () -> Void
     let onQuit: () -> Void
 
     @State private var showCustomInput = false
@@ -14,19 +13,29 @@ struct MenuView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Header
-            VStack(alignment: .leading, spacing: 4) {
-                HStack(spacing: 8) {
-                    Circle()
-                        .fill(isActive ? Color.green : Color.gray)
-                        .frame(width: 10, height: 10)
-                    Text(isActive ? "Holding the door" : "Standing by")
-                        .font(.system(size: 15, weight: .bold))
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 8) {
+                        Circle()
+                            .fill(isActive ? Color.green : Color.gray)
+                            .frame(width: 10, height: 10)
+                        Text(isActive ? "Holding the door" : "Standing by")
+                            .font(.system(size: 15, weight: .bold))
+                    }
+                    Text(isActive
+                         ? "Sleep blocked \u{00B7} Screen lock still active"
+                         : "No agent detected \u{00B7} Mac sleeps normally")
+                        .font(.system(size: 12))
+                        .foregroundColor(.secondary)
                 }
-                Text(isActive
-                     ? "Sleep blocked \u{00B7} Screen lock still active"
-                     : "No agent detected \u{00B7} Mac sleeps normally")
-                    .font(.system(size: 12))
-                    .foregroundColor(.secondary)
+                Spacer()
+                Button(action: onQuit) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 16))
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Quit Holdor")
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
@@ -105,15 +114,6 @@ struct MenuView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
 
-            Divider().padding(.horizontal, 8)
-
-            // Actions
-            VStack(spacing: 2) {
-                actionButton("Preferences...") { onPreferences() }
-                actionButton("Quit Holdor") { onQuit() }
-            }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 6)
         }
         .frame(width: 300)
     }
@@ -179,16 +179,4 @@ struct MenuView: View {
         }
     }
 
-    private func actionButton(_ title: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(title)
-                .font(.system(size: 13))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 6)
-        }
-        .buttonStyle(.plain)
-        .background(Color.primary.opacity(0.05))
-        .cornerRadius(6)
-    }
 }

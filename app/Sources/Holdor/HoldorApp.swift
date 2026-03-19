@@ -34,7 +34,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let menuView = MenuView(
             monitor: monitor,
-            onPreferences: { [weak self] in self?.closePopover() },
             onQuit: { NSApp.terminate(nil) }
         )
 
