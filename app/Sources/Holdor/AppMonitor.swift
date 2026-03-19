@@ -35,9 +35,15 @@ final class AppMonitor: ObservableObject {
     private var timer: Timer?
 
     init() {
-        self.enabled = UserDefaults.standard.object(forKey: "enabled") as? Bool ?? true
-        self.allowDisplaySleep = UserDefaults.standard.object(forKey: "allowDisplaySleep") as? Bool ?? true
-        self.launchAtLogin = UserDefaults.standard.object(forKey: "launchAtLogin") as? Bool ?? false
+        UserDefaults.standard.register(defaults: [
+            "enabled": true,
+            "allowDisplaySleep": true,
+            "launchAtLogin": false,
+        ])
+
+        self.enabled = UserDefaults.standard.bool(forKey: "enabled")
+        self.allowDisplaySleep = UserDefaults.standard.bool(forKey: "allowDisplaySleep")
+        self.launchAtLogin = UserDefaults.standard.bool(forKey: "launchAtLogin")
 
         if let data = UserDefaults.standard.data(forKey: "watchedApp"),
            let app = try? JSONDecoder().decode(WatchedApp.self, from: data) {

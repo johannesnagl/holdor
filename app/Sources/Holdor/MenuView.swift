@@ -101,10 +101,15 @@ struct MenuView: View {
     }
 
     private func toggleRow(_ label: String, isOn: Binding<Bool>) -> some View {
-        Toggle(label, isOn: isOn)
-            .toggleStyle(.switch)
-            .tint(.green)
-            .font(.system(size: 13))
+        HStack {
+            Text(label)
+                .font(.system(size: 13))
+            Spacer()
+            Toggle("", isOn: isOn)
+                .toggleStyle(.switch)
+                .tint(.green)
+                .labelsHidden()
+        }
     }
 
     private func actionButton(_ title: String, action: @escaping () -> Void) -> some View {
