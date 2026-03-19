@@ -118,7 +118,6 @@ struct MenuView: View {
             // Toggles
             VStack(spacing: 6) {
                 toggleRow("Enable Holdor", isOn: $monitor.enabled)
-                toggleRow("Allow display sleep", isOn: $monitor.allowDisplaySleep)
                 toggleRow("Launch at login", isOn: $monitor.launchAtLogin)
             }
             .padding(.horizontal, 16)

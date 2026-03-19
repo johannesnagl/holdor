@@ -12,9 +12,6 @@ final class AppMonitor: ObservableObject {
     @Published var enabled: Bool {
         didSet { UserDefaults.standard.set(enabled, forKey: "enabled"); refresh() }
     }
-    @Published var allowDisplaySleep: Bool {
-        didSet { UserDefaults.standard.set(allowDisplaySleep, forKey: "allowDisplaySleep"); restartCaffeinateIfNeeded() }
-    }
     @Published var launchAtLogin: Bool {
         didSet {
             UserDefaults.standard.set(launchAtLogin, forKey: "launchAtLogin")
@@ -37,12 +34,10 @@ final class AppMonitor: ObservableObject {
     init() {
         UserDefaults.standard.register(defaults: [
             "enabled": true,
-            "allowDisplaySleep": true,
             "launchAtLogin": false,
         ])
 
         self.enabled = UserDefaults.standard.bool(forKey: "enabled")
-        self.allowDisplaySleep = UserDefaults.standard.bool(forKey: "allowDisplaySleep")
         self.launchAtLogin = UserDefaults.standard.bool(forKey: "launchAtLogin")
 
         if let data = UserDefaults.standard.data(forKey: "watchedApp"),
@@ -98,14 +93,10 @@ final class AppMonitor: ObservableObject {
         }
 
         let pid = app.processIdentifier
-        var args = ["-i", "-w", "\(pid)"]
-        if !allowDisplaySleep {
-            args.insert("-d", at: 0)
-        }
 
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/caffeinate")
-        process.arguments = args
+        process.arguments = ["-i", "-w", "\(pid)"]
 
         do {
             try process.run()
@@ -120,13 +111,6 @@ final class AppMonitor: ObservableObject {
         caffeinateProcess?.terminate()
         caffeinateProcess = nil
         isSleepPrevented = false
-    }
-
-    private func restartCaffeinateIfNeeded() {
-        if isSleepPrevented {
-            stopCaffeinate()
-            refresh()
-        }
     }
 
     private func updateLoginItem() {
