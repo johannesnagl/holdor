@@ -191,22 +191,20 @@ struct MenuView: View {
             }
             .buttonStyle(.plain)
             Spacer()
-            HStack(spacing: 8) {
-                Circle()
-                    .fill(monitor.isRunning(app) ? Color.green : Color.gray.opacity(0.4))
-                    .frame(width: 7, height: 7)
-                if removable {
-                    Button {
-                        monitor.removeCustomApp(app)
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 9, weight: .bold))
-                            .foregroundColor(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .help("Remove \(app.name)")
+            if removable {
+                Button {
+                    monitor.removeCustomApp(app)
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundColor(.secondary)
                 }
+                .buttonStyle(.plain)
+                .help("Remove \(app.name)")
             }
+            Circle()
+                .fill(monitor.isRunning(app) ? Color.green : Color.gray.opacity(0.4))
+                .frame(width: 7, height: 7)
         }
     }
 
