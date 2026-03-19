@@ -152,22 +152,28 @@ struct MenuView: View {
     }
 
     private func pickApp() {
-        let panel = NSOpenPanel()
-        panel.title = "Choose an application"
-        panel.allowedContentTypes = [.application]
-        panel.allowsMultipleSelection = false
-        panel.directoryURL = URL(fileURLWithPath: "/Applications")
+        // Dispatch async so the popover can close first, then show the panel
+        DispatchQueue.main.async {
+            NSApp.activate(ignoringOtherApps: true)
 
-        guard panel.runModal() == .OK, let url = panel.url else { return }
+            let panel = NSOpenPanel()
+            panel.title = "Choose an application"
+            panel.allowedContentTypes = [.application]
+            panel.allowsMultipleSelection = false
+            panel.directoryURL = URL(fileURLWithPath: "/Applications")
+            panel.level = .floating
 
-        let bundle = Bundle(url: url)
-        guard let bundleID = bundle?.bundleIdentifier else { return }
-        let name = bundle?.infoDictionary?["CFBundleName"] as? String
-            ?? bundle?.infoDictionary?["CFBundleDisplayName"] as? String
-            ?? url.deletingPathExtension().lastPathComponent
+            guard panel.runModal() == .OK, let url = panel.url else { return }
 
-        let app = WatchedApp(name: name, bundleIdentifier: bundleID)
-        monitor.addCustomApp(app)
+            let bundle = Bundle(url: url)
+            guard let bundleID = bundle?.bundleIdentifier else { return }
+            let name = bundle?.infoDictionary?["CFBundleName"] as? String
+                ?? bundle?.infoDictionary?["CFBundleDisplayName"] as? String
+                ?? url.deletingPathExtension().lastPathComponent
+
+            let app = WatchedApp(name: name, bundleIdentifier: bundleID)
+            self.monitor.addCustomApp(app)
+        }
     }
 
     private var customApps: [WatchedApp] {
