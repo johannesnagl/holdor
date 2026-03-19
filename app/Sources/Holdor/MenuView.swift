@@ -49,6 +49,12 @@ struct MenuView: View {
                         Label(monitor.enabled ? "Pause protection" : "Resume protection",
                               systemImage: monitor.enabled ? "pause.circle" : "play.circle")
                     }
+                    Button {
+                        monitor.launchAtLogin.toggle()
+                    } label: {
+                        Label(monitor.launchAtLogin ? "Disable launch at login" : "Launch at login",
+                              systemImage: monitor.launchAtLogin ? "checkmark.circle" : "arrow.clockwise")
+                    }
                     Divider()
                     Button {
                         NSWorkspace.shared.open(URL(string: "https://holdor.app")!)
@@ -136,15 +142,6 @@ struct MenuView: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
             }
-
-            Divider().padding(.horizontal, 8)
-
-            // Settings
-            VStack(spacing: 6) {
-                toggleRow("Launch at login", isOn: $monitor.launchAtLogin)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
 
             // Paused warning
             if !monitor.enabled {
