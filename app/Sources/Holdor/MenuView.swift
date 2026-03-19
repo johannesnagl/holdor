@@ -179,11 +179,9 @@ struct MenuView: View {
             }
             .buttonStyle(.plain)
             Spacer()
-            if monitor.isWatching(app) {
-                Circle()
-                    .fill(monitor.isRunning(app) ? Color.green : Color.gray.opacity(0.4))
-                    .frame(width: 7, height: 7)
-            }
+            Circle()
+                .fill(monitor.isRunning(app) ? Color.green : Color.gray.opacity(0.4))
+                .frame(width: 7, height: 7)
         }
     }
 
