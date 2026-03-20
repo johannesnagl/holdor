@@ -87,7 +87,7 @@ struct MenuView: View {
                     .font(.system(size: 13))
                     .foregroundColor(.secondary)
 
-                ForEach(WatchedApp.allApps, id: \.bundleIdentifier) { app in
+                ForEach(monitor.installedBuiltInApps, id: \.bundleIdentifier) { app in
                     appRow(app, removable: false)
                 }
 
@@ -212,9 +212,9 @@ struct MenuView: View {
                 .buttonStyle(.plain)
                 .help("Remove \(app.name)")
             }
-            Circle()
-                .fill(monitor.isRunning(app) ? Color.green : Color.gray.opacity(0.4))
-                .frame(width: 7, height: 7)
+            Text(monitor.isRunning(app) ? "Running" : "Not Running")
+                .font(.system(size: 11))
+                .foregroundColor(monitor.isRunning(app) ? .green : .secondary)
         }
     }
 

@@ -7,7 +7,8 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "Holdor",
-            path: "Sources/Holdor"
+            path: "Sources/Holdor",
+            exclude: ["Resources/AppIcon.icns"]
         )
     ]
 )

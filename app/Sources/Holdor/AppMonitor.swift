@@ -22,10 +22,16 @@ final class AppMonitor: ObservableObject {
     private var caffeinateProcesses: [String: Process] = [:]
     private var timer: Timer?
 
+    var installedBuiltInApps: [WatchedApp] {
+        WatchedApp.allApps.filter { app in
+            NSWorkspace.shared.urlForApplication(withBundleIdentifier: app.bundleIdentifier) != nil
+        }
+    }
+
     var allKnownApps: [WatchedApp] {
         let builtInIDs = Set(WatchedApp.allApps.map(\.bundleIdentifier))
         let custom = watchedApps.filter { !builtInIDs.contains($0.bundleIdentifier) }
-        return WatchedApp.allApps + custom.sorted { $0.name < $1.name }
+        return installedBuiltInApps + custom.sorted { $0.name < $1.name }
     }
 
     var watchedRunningCount: Int {
