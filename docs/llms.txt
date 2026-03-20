@@ -36,7 +36,7 @@ Holdor uses macOS's built-in `caffeinate` command, tied to each app's process ID
 - License: MIT
 - Repository: https://github.com/johannesnagl/holdor.app
 - Website: https://holdor.app
-- Download: https://github.com/johannesnagl/holdor.app/releases/download/v1.3.0/Holdor-1.3.0-arm64.dmg
+- Download: https://github.com/johannesnagl/holdor.app/releases/download/v1.3.37/Holdor-1.3.37-arm64.dmg
 
 ## Building
 ```bash
