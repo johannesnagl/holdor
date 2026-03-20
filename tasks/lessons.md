@@ -27,3 +27,6 @@
 - **The unforgettable thing**: CSS-animated door that opens/closes in the hero
 - **Separators**: Use em dashes (&mdash;) instead of "//" or dots or pipes. Keep it clean and simple.
 - **z-index lesson**: Fixed overlays (grain, dot-grid) must use z-index: -1 to avoid blocking clicks. Header needs higher z-index than main since later DOM elements paint on top at equal z-index
+
+## Code Hygiene
+- **When removing HTML, always clean up CSS/JS too**: Whenever HTML elements or classes are removed, immediately check for and remove the corresponding CSS rules, keyframes, CSS variables, and any JS referencing those elements. Don't leave dead code behind.

@@ -11,7 +11,6 @@
     --text-muted: #918f88;
     --accent: #e59500;
     --accent-hover: #cc8400;
-    --accent-dim: rgba(229, 149, 0, 0.08);
     --green: #22c55e;
     --rule: #1f1f28;
     --rule-light: #2a2a36;
@@ -267,11 +266,6 @@ nav {
     align-items: center;
 }
 
-@keyframes led-blink {
-    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green); }
-    50% { opacity: 0.5; box-shadow: 0 0 4px var(--green); }
-}
-
 /* ---- Buttons ---- */
 
 .btn-group {
@@ -446,113 +440,13 @@ section {
     line-height: 1.7;
 }
 
-/* ---- App Preview ---- */
+/* ---- Hero Screenshot ---- */
 
-.app-preview {
+.hero-screenshot {
     width: 100%;
-    border: 1px solid var(--accent);
-    background: var(--bg-panel);
-    font-size: 13px;
+    height: auto;
+    display: block;
     box-shadow: 0 0 30px rgba(229, 149, 0, 0.08);
-}
-
-.app-preview-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--rule);
-}
-
-.app-preview-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 6px var(--green);
-    animation: led-blink 2s ease-in-out infinite;
-}
-
-.app-preview-title {
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.app-preview-gear {
-    margin-left: auto;
-    font-size: 14px;
-    color: var(--text-muted);
-}
-
-.app-preview-subtitle {
-    font-size: 12px;
-    color: var(--text-muted);
-    padding: 8px 20px;
-    border-bottom: 1px solid var(--rule);
-}
-
-.app-preview-section-label {
-    font-size: 12px;
-    color: var(--text-muted);
-    padding: 12px 20px 6px;
-}
-
-.app-preview-app-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 20px;
-}
-
-.app-preview-check {
-    font-size: 14px;
-    color: var(--text-muted);
-    width: 18px;
-    text-align: center;
-}
-
-.app-preview-check.checked {
-    color: var(--accent);
-}
-
-.app-preview-app-name {
-    font-size: 13px;
-    flex: 1;
-}
-
-.app-preview-status {
-    font-size: 11px;
-    color: var(--text-muted);
-}
-
-.app-preview-status.running {
-    color: var(--green);
-}
-
-.app-preview-add {
-    font-size: 14px;
-    color: var(--text-muted);
-    width: 18px;
-    text-align: center;
-}
-
-.app-preview-add-label {
-    font-size: 12px;
-    color: var(--text-muted);
-}
-
-.app-preview-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 12px 12px;
-    padding: 10px 20px;
-    background: var(--accent);
-    color: var(--bg);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: default;
 }
 
 /* ---- Features ---- */
@@ -717,6 +611,279 @@ footer a:hover {
     color: var(--rule-light);
 }
 
+/* ---- Comparison ---- */
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 80px;
+}
+
+.comparison-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.comparison-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.comparison-label--bad {
+    color: #ef4444;
+}
+
+.comparison-label--good {
+    color: var(--green);
+}
+
+/* Mock Desktop */
+
+.mock-desktop {
+    border: 1px solid var(--rule-light);
+    background: #1a1a24;
+    overflow: hidden;
+}
+
+.mock-menubar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    background: #2a2a36;
+    font-size: 11px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--rule);
+}
+
+.mock-menubar-apple {
+    font-size: 13px;
+}
+
+.mock-menubar-app {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 11px;
+}
+
+.mock-menubar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mock-menubar-holdor {
+    font-size: 12px;
+    animation: holdor-glow 2s ease-in-out infinite;
+}
+
+@keyframes holdor-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.mock-menubar-time {
+    font-size: 11px;
+}
+
+/* Mock Screen */
+
+.mock-screen {
+    position: relative;
+    min-height: 220px;
+}
+
+.mock-terminal {
+    height: 100%;
+}
+
+.mock-terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: #22222e;
+    border-bottom: 1px solid var(--rule);
+}
+
+.mock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.mock-dot--red { background: #ef4444; }
+.mock-dot--yellow { background: #eab308; }
+.mock-dot--green { background: var(--green); }
+
+.mock-terminal-title {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-left: 4px;
+}
+
+.mock-terminal-body {
+    padding: 10px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.mock-line {
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.mock-line--muted {
+    color: var(--text-muted);
+}
+
+.mock-line--error {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.mock-line--success {
+    color: var(--green);
+    font-weight: 600;
+}
+
+.mock-cursor {
+    animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Animation: typing lines appear one by one */
+
+.mock-line--typing,
+.mock-line--progress {
+    opacity: 0;
+    animation: line-appear 10s infinite;
+}
+
+.mock-line--typing {
+    animation-delay: 0s;
+}
+
+.mock-line--progress {
+    animation-delay: 0s;
+}
+
+/* Results: hidden initially, appear after lock cycle */
+
+.mock-result {
+    opacity: 0;
+}
+
+.mock-result--bad {
+    animation: result-bad 10s infinite;
+}
+
+.mock-result--good {
+    animation: result-good 10s infinite;
+}
+
+/* Lock Overlay */
+
+.mock-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mock-lock-icon {
+    font-size: 28px;
+}
+
+.mock-lock-text {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+}
+
+.mock-overlay--without {
+    animation: overlay-without 10s infinite;
+}
+
+.mock-overlay--with {
+    background: rgba(0, 0, 0, 0.85);
+    animation: overlay-with 10s infinite;
+}
+
+/*
+ * Animation timeline (10s loop):
+ *
+ * 0-30%   (0-3s)   : Terminal typing, AI working
+ * 30-35%  (3-3.5s) : Lock screen fades in
+ * 35-60%  (3.5-6s) : Locked / sleeping
+ * 60-65%  (6-6.5s) : Unlock / wake
+ * 65-90%  (6.5-9s) : Result visible
+ * 90-100% (9-10s)  : Reset pause
+ */
+
+/* Without: lock overlay stays fully opaque */
+@keyframes overlay-without {
+    0%, 28%    { opacity: 0; }
+    35%        { opacity: 1; }
+    62%        { opacity: 1; }
+    68%        { opacity: 0; }
+    100%       { opacity: 0; }
+}
+
+/* With: lock overlay is semi-transparent so work shows through */
+@keyframes overlay-with {
+    0%, 28%    { opacity: 0; }
+    35%        { opacity: 1; }
+    62%        { opacity: 1; }
+    68%        { opacity: 0; }
+    100%       { opacity: 0; }
+}
+
+/* Typing line: visible during working phase, hidden after */
+@keyframes line-appear {
+    0%, 5%     { opacity: 0; }
+    10%        { opacity: 1; }
+    28%        { opacity: 1; }
+    35%        { opacity: 0; }
+    100%       { opacity: 0; }
+}
+
+/* Bad result: appears after unlock */
+@keyframes result-bad {
+    0%, 65%    { opacity: 0; }
+    70%        { opacity: 1; }
+    90%        { opacity: 1; }
+    95%        { opacity: 0; }
+    100%       { opacity: 0; }
+}
+
+/* Good result: appears after unlock */
+@keyframes result-good {
+    0%, 65%    { opacity: 0; }
+    70%        { opacity: 1; }
+    90%        { opacity: 1; }
+    95%        { opacity: 0; }
+    100%       { opacity: 0; }
+}
+
 /* ============================================
    Responsive — Tablet
    ============================================ */
@@ -770,6 +937,11 @@ footer a:hover {
 
     .section-rule {
         display: none;
+    }
+
+    .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
 
 }
@@ -837,5 +1009,18 @@ footer a:hover {
 
     .hero-preview {
         display: none;
+    }
+
+    .mock-terminal-body {
+        font-size: 9px;
+        padding: 8px 10px;
+    }
+
+    .mock-screen {
+        min-height: 180px;
+    }
+
+    .comparison-label {
+        font-size: 18px;
     }
 }
