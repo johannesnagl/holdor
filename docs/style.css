@@ -351,6 +351,26 @@ section {
     align-self: center;
 }
 
+.heading-anchor {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6em;
+    opacity: 0;
+    margin-left: 8px;
+    transition: opacity 0.2s, color 0.2s;
+    vertical-align: middle;
+}
+
+.section-title:hover .heading-anchor,
+.heading-anchor:focus {
+    opacity: 1;
+}
+
+.heading-anchor:hover {
+    color: var(--accent);
+}
+
 /* ---- Problem ---- */
 
 .problem-grid {
