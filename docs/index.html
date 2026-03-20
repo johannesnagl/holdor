@@ -150,34 +150,33 @@
                 <a href="https://paypal.me/jollife" class="btn-secondary" role="button" rel="noopener">Buy me a Pasta</a>
             </div>
 
-            <div class="door-container" aria-hidden="true">
-                <div class="door-frame">
-                    <div class="door-panel"></div>
-                    <div class="door-status">Active</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== LIVE PREVIEW ===== -->
-        <section aria-label="App preview">
-            <div class="app-preview-wrapper">
-                <div class="app-preview-label reveal">Live Preview</div>
-                <div class="app-preview reveal" role="img" aria-label="Holdor app interface showing active sleep protection">
+            <div class="hero-preview" role="img" aria-label="Holdor app interface showing active sleep protection">
+                <div class="app-preview">
                     <div class="app-preview-header">
                         <div class="app-preview-dot" aria-hidden="true"></div>
                         <span class="app-preview-title">Holding the door</span>
+                        <span class="app-preview-gear" aria-hidden="true">&#x2699;</span>
                     </div>
-                    <div class="app-preview-subtitle">Sleep blocked // Screen lock active</div>
-                    <div class="app-preview-row">
-                        <span class="app-preview-row-label">Watching</span>
-                        <span class="app-preview-app">
-                            <span class="app-preview-app-dot" style="background: #22c55e" aria-hidden="true"></span>
-                            Claude
-                        </span>
+                    <div class="app-preview-subtitle">Sleep blocked // Screen lock still active</div>
+                    <div class="app-preview-section-label">Watching</div>
+                    <div class="app-preview-app-row">
+                        <span class="app-preview-check checked" aria-hidden="true">&#x2713;</span>
+                        <span class="app-preview-app-name">Claude</span>
+                        <span class="app-preview-status running">Running</span>
                     </div>
-                    <div class="app-preview-row">
-                        <span class="app-preview-row-label">Agent Status</span>
-                        <span class="app-preview-row-value active">Running</span>
+                    <div class="app-preview-app-row">
+                        <span class="app-preview-check checked" aria-hidden="true">&#x2713;</span>
+                        <span class="app-preview-app-name">Cursor</span>
+                        <span class="app-preview-status">Not Running</span>
+                    </div>
+                    <div class="app-preview-app-row">
+                        <span class="app-preview-check checked" aria-hidden="true">&#x2713;</span>
+                        <span class="app-preview-app-name">VS Code</span>
+                        <span class="app-preview-status">Not Running</span>
+                    </div>
+                    <div class="app-preview-app-row">
+                        <span class="app-preview-add" aria-hidden="true">+</span>
+                        <span class="app-preview-add-label">Add app...</span>
                     </div>
                     <div class="app-preview-btn" aria-hidden="true">Lock Screen</div>
                 </div>
@@ -287,6 +286,29 @@
                     <a href="https://paypal.me/jollife" class="btn-secondary" role="button" rel="noopener">Buy me a Pasta</a>
                 </div>
                 <p class="download-note reveal">Requires macOS 13+ // Signed and notarized by Apple</p>
+            </div>
+        </section>
+
+        <!-- ===== AUTHOR ===== -->
+        <section class="author-section" id="author" aria-labelledby="author-heading">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">Origin</span>
+                    <h2 id="author-heading" class="section-title">Made in Vienna, Europe</h2>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="author-card reveal">
+                    <img src="/author.jpg" alt="Johannes Nagl" class="author-photo" width="120" height="120" loading="lazy">
+                    <div class="author-info">
+                        <div class="author-name">Johannes Nagl</div>
+                        <div class="author-roles">
+                            <span class="author-role">Concept, growth, and everything except coding</span>
+                            <span class="author-role-divider">//</span>
+                            <span class="author-role">Coding by <strong>Claude Opus</strong></span>
+                        </div>
+                        <a href="https://www.linkedin.com/in/johannesnagl/" class="btn-secondary" rel="noopener">Connect on LinkedIn</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
