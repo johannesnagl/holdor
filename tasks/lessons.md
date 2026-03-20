@@ -21,9 +21,9 @@
 - **Aesthetic**: Industrial / control room / utilitarian — NOT generic AI/tech startup
 - **Typography**: Bebas Neue (headlines, monumental stencil), IBM Plex Mono (body, everything else reads like a terminal)
 - **Colors**: Near-black bg (#0b0b0f), warm amber accent (#e59500), green (#22c55e) ONLY for active/running status, red for warnings, warm off-white text (#e0ddd5), warm gray muted (#918f88 — WCAG AA compliant)
-- **Visual language**: Sharp rectangles (no border-radius), thin ruled lines as dividers, dot-grid background, subtle noise grain overlay, section labels like SYS/ALERT/PROTOCOL/SPECS
+- **Visual language**: Sharp rectangles (no border-radius), thin ruled lines as dividers, dot-grid background, subtle noise grain overlay. NO section labels (removed SYS/ALERT/PROTOCOL/SPECS — too noisy)
 - **Motion**: Scroll-triggered reveals (IntersectionObserver), staggered grid children, pulsing LED indicators, animated door in hero
 - **Layout**: Left-aligned hero (not centered), data-table-style grids with 1px gap, generous vertical spacing between sections
 - **The unforgettable thing**: CSS-animated door that opens/closes in the hero
-- **Separators**: Use "//" instead of dots or pipes for a raw/system feel
+- **Separators**: Use em dashes (&mdash;) instead of "//" or dots or pipes. Keep it clean and simple.
 - **z-index lesson**: Fixed overlays (grain, dot-grid) must use z-index: -1 to avoid blocking clicks. Header needs higher z-index than main since later DOM elements paint on top at equal z-index

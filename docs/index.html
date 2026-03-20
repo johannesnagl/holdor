@@ -19,6 +19,7 @@
     <meta property="og:image" content="https://holdor.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Holdor — prevents macOS sleep while AI coding agents run">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -39,7 +40,7 @@
     <!-- Fonts — non-blocking via link tags -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 
     <!-- hreflang -->
     <link rel="alternate" hreflang="en" href="https://holdor.app/">
@@ -119,6 +120,14 @@
                     "@type": "Answer",
                     "text": "Yes — that's exactly the point. Holdor prevents idle sleep but allows the display to sleep and the screen to lock. Your security policy is satisfied while your AI agents keep running in the background."
                 }
+            },
+            {
+                "@type": "Question",
+                "name": "Is Holdor free?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes — Holdor is completely free and open source under the MIT license. The source code is available on GitHub. If it saves you from carrying your laptop around, you can optionally buy the developer a pasta."
+                }
             }
         ]
     }
@@ -140,14 +149,14 @@
 
         <!-- ===== HERO ===== -->
         <section class="hero" aria-labelledby="hero-heading">
-            <div class="hero-badge reveal">SYS // Free &amp; Open Source</div>
+            <div class="hero-badge reveal">Free &amp; Open Source</div>
             <h1 id="hero-heading" class="reveal"><span class="hero-name">Holdor</span>Holds<br>the door.</h1>
             <p class="hero-tagline reveal">
                 <strong>Lock your screen. Walk away.</strong> Holdor prevents macOS from sleeping while your AI agents are running. Claude, Cursor, Windsurf, VS Code, terminals &mdash; all protected.
             </p>
             <div class="hero-actions btn-group reveal">
                 <a href="#download" class="btn" role="button">Download for macOS</a>
-                <a href="https://paypal.me/jollife" class="btn-secondary" role="button" rel="noopener">Buy me a Pasta</a>
+                <a href="https://paypal.me/jollife" class="btn-secondary" role="button" rel="noopener" target="_blank">Buy me a Pasta</a>
             </div>
 
             <div class="hero-preview" role="img" aria-label="Holdor app interface showing active sleep protection">
@@ -157,7 +166,7 @@
                         <span class="app-preview-title">Holding the door</span>
                         <span class="app-preview-gear" aria-hidden="true">&#x2699;</span>
                     </div>
-                    <div class="app-preview-subtitle">Sleep blocked // Screen lock still active</div>
+                    <div class="app-preview-subtitle">Sleep blocked &mdash; Screen lock still active</div>
                     <div class="app-preview-section-label">Watching</div>
                     <div class="app-preview-app-row">
                         <span class="app-preview-check checked" aria-hidden="true">&#x2713;</span>
@@ -187,23 +196,19 @@
         <section id="problem" aria-labelledby="problem-heading">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Alert</span>
                     <h2 id="problem-heading" class="section-title">The Problem</h2>
                     <div class="section-rule"></div>
                 </div>
                 <div class="problem-grid reveal" role="list">
                     <article class="problem-card" role="listitem">
-                        <div class="problem-card-label">Warning 01</div>
                         <h3>Security Policy</h3>
                         <p>Your company requires locking the screen when you step away. Non-negotiable.</p>
                     </article>
                     <article class="problem-card" role="listitem">
-                        <div class="problem-card-label">Warning 02</div>
                         <h3>macOS Sleeps</h3>
                         <p>Lock triggers idle sleep. Your long-running AI agents get killed mid-task.</p>
                     </article>
                     <article class="problem-card" role="listitem">
-                        <div class="problem-card-label">Warning 03</div>
                         <h3>The Workaround</h3>
                         <p>Carry your laptop everywhere? That's not a solution. That's a problem.</p>
                     </article>
@@ -215,7 +220,6 @@
         <section id="solution" aria-labelledby="solution-heading">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Protocol</span>
                     <h2 id="solution-heading" class="section-title">The Solution</h2>
                     <div class="section-rule"></div>
                 </div>
@@ -243,7 +247,6 @@
         <section id="features" aria-labelledby="features-heading">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Specs</span>
                     <h2 id="features-heading" class="section-title">Features</h2>
                     <div class="section-rule"></div>
                 </div>
@@ -283,9 +286,9 @@
                 <p class="download-sub reveal">Free, open source, built with Swift.</p>
                 <div class="btn-group btn-group--center reveal">
                     <a href="https://github.com/johannesnagl/holdor.app/releases/download/v1.3.37/Holdor-1.3.37-arm64.dmg" class="btn" role="button" rel="noopener">Download v1.3.37</a>
-                    <a href="https://paypal.me/jollife" class="btn-secondary" role="button" rel="noopener">Buy me a Pasta</a>
+                    <a href="https://paypal.me/jollife" class="btn-secondary" role="button" rel="noopener" target="_blank">Buy me a Pasta</a>
                 </div>
-                <p class="download-note reveal">Requires macOS 13+ // Signed and notarized by Apple</p>
+                <p class="download-note reveal">Requires macOS 13+ &mdash; Signed and notarized by Apple</p>
             </div>
         </section>
 
@@ -293,7 +296,6 @@
         <section class="author-section" id="author" aria-labelledby="author-heading">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Origin</span>
                     <h2 id="author-heading" class="section-title">Made in Vienna, Europe</h2>
                     <div class="section-rule"></div>
                 </div>
@@ -303,10 +305,10 @@
                         <div class="author-name">Johannes Nagl</div>
                         <div class="author-roles">
                             <span class="author-role">Concept, growth, and everything except coding</span>
-                            <span class="author-role-divider">//</span>
+                            <span class="author-role-divider">&mdash;</span>
                             <span class="author-role">Coding by <strong>Claude Opus</strong></span>
                         </div>
-                        <a href="https://www.linkedin.com/in/johannesnagl/" class="btn-secondary" rel="noopener">Connect on LinkedIn</a>
+                        <a href="https://www.linkedin.com/in/johannesnagl/" class="btn-secondary" rel="noopener" target="_blank">Connect on LinkedIn</a>
                     </div>
                 </div>
             </div>
@@ -316,13 +318,15 @@
     <footer role="contentinfo">
         <div class="container">
             <p>
-                <a href="https://github.com/johannesnagl/holdor.app" rel="noopener">GitHub</a>
-                <span class="footer-sep">//</span>
+                <a href="https://github.com/johannesnagl/holdor.app" rel="noopener" target="_blank">GitHub</a>
+                <span class="footer-sep">&mdash;</span>
                 <a href="https://paypal.me/jollife" rel="noopener">Buy me a Pasta</a>
-                <span class="footer-sep">//</span>
-                <a href="https://www.linkedin.com/in/johannesnagl/" rel="noopener">LinkedIn</a>
-                <span class="footer-sep">//</span>
+                <span class="footer-sep">&mdash;</span>
+                <a href="https://www.linkedin.com/in/johannesnagl/" rel="noopener" target="_blank">LinkedIn</a>
+                <span class="footer-sep">&mdash;</span>
                 MIT License
+                <span class="footer-sep">&mdash;</span>
+                Last updated <time datetime="2026-03-20">March 2026</time>
             </p>
         </div>
     </footer>
