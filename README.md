@@ -26,7 +26,7 @@ Holdor uses macOS's built-in `caffeinate` command, tied to each app's process ID
 
 ## Supported Apps
 
-Built-in support for 7 apps:
+Built-in support for 10 apps:
 
 - Claude Desktop
 - Cursor
@@ -35,6 +35,9 @@ Built-in support for 7 apps:
 - Zed
 - ChatGPT
 - Warp
+- Terminal
+- iTerm
+- Ghostty
 
 Add any other app via the "Add app..." button.
 
@@ -48,6 +51,27 @@ swift build -c release
 ```
 
 The binary will be at `app/.build/release/Holdor`.
+
+### Building a DMG
+
+```bash
+./scripts/build-dmg.sh 1.1.0
+```
+
+This creates an unsigned DMG at `dist/Holdor-1.1.0-arm64.dmg`.
+
+To build a **signed and notarized** DMG:
+
+```bash
+SIGN_IDENTITY="Developer ID Application: Your Name (TEAM_ID)" \
+NOTARIZE_PROFILE="your-keychain-profile" \
+./scripts/build-dmg.sh 1.1.0
+```
+
+Setting up code signing requires:
+1. An [Apple Developer Program](https://developer.apple.com/programs/) membership
+2. A **Developer ID Application** certificate
+3. A notarization keychain profile: `xcrun notarytool store-credentials "your-keychain-profile" --apple-id "you@example.com" --team-id "TEAM_ID"`
 
 ## Running
 
