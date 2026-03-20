@@ -26,7 +26,8 @@ struct MenuView: View {
         if running == 0 {
             return "0 of \(watched) watched app\(watched == 1 ? "" : "s") running"
         }
-        return "Sleep blocked // Screen lock still active"
+        let mode = monitor.extendedMode ? "Extended" : "Regular"
+        return "Sleep blocked (\(mode)) // Screen lock still active"
     }
 
     var body: some View {
@@ -54,6 +55,12 @@ struct MenuView: View {
                         } label: {
                             Label(monitor.launchAtLogin ? "Disable launch at login" : "Launch at login",
                                   systemImage: monitor.launchAtLogin ? "checkmark.circle" : "arrow.clockwise")
+                        }
+                        Button {
+                            monitor.extendedMode.toggle()
+                        } label: {
+                            Label(monitor.extendedMode ? "Disable extended mode" : "Extended mode (prevent lid sleep)",
+                                  systemImage: monitor.extendedMode ? "bolt.circle.fill" : "bolt.circle")
                         }
                         Divider()
                         Button {

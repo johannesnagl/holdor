@@ -18,6 +18,12 @@ final class AppMonitor: ObservableObject {
             updateLoginItem()
         }
     }
+    @Published var extendedMode: Bool {
+        didSet {
+            UserDefaults.standard.set(extendedMode, forKey: "extendedMode")
+            restartAllCaffeinate()
+        }
+    }
 
     private var caffeinateProcesses: [String: Process] = [:]
     private var timer: Timer?
@@ -44,10 +50,12 @@ final class AppMonitor: ObservableObject {
         UserDefaults.standard.register(defaults: [
             "enabled": true,
             "launchAtLogin": false,
+            "extendedMode": false,
         ])
 
         self.enabled = UserDefaults.standard.bool(forKey: "enabled")
         self.launchAtLogin = UserDefaults.standard.bool(forKey: "launchAtLogin")
+        self.extendedMode = UserDefaults.standard.bool(forKey: "extendedMode")
 
         if let data = UserDefaults.standard.data(forKey: "watchedApps"),
            let apps = try? JSONDecoder().decode(Set<WatchedApp>.self, from: data) {
@@ -142,7 +150,7 @@ final class AppMonitor: ObservableObject {
         let pid = app.processIdentifier
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/caffeinate")
-        process.arguments = ["-i", "-w", "\(pid)"]
+        process.arguments = extendedMode ? ["-i", "-s", "-w", "\(pid)"] : ["-i", "-w", "\(pid)"]
 
         do {
             try process.run()
@@ -157,6 +165,13 @@ final class AppMonitor: ObservableObject {
         caffeinateProcesses[bundleID]?.terminate()
         caffeinateProcesses.removeValue(forKey: bundleID)
         caffeinatedApps.remove(bundleID)
+    }
+
+    private func restartAllCaffeinate() {
+        for bundleID in caffeinatedApps {
+            stopCaffeinate(for: bundleID)
+        }
+        refresh()
     }
 
     private func saveWatchedApps() {
