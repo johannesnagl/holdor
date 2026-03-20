@@ -10,7 +10,6 @@
     --text: #e0ddd5;
     --text-muted: #918f88;
     --accent: #e59500;
-    --accent-hover: #cc8400;
     --green: #22c55e;
     --rule: #1f1f28;
     --rule-light: #2a2a36;
@@ -294,7 +293,7 @@ nav {
 }
 
 .btn:hover {
-    background: var(--accent-hover);
+    background: #cc8400;
     transform: translateY(-1px);
 }
 
@@ -322,6 +321,10 @@ nav {
 
 section {
     border-top: 1px solid var(--rule);
+}
+
+.hero {
+    border-top: none;
 }
 
 .section-header {
@@ -446,6 +449,7 @@ section {
     width: 100%;
     height: auto;
     display: block;
+    border: 1px solid var(--rule-light);
     box-shadow: 0 0 30px rgba(229, 149, 0, 0.08);
 }
 
