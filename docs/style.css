@@ -739,6 +739,7 @@ footer a:hover {
     color: var(--text);
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .mock-line--muted {
@@ -770,14 +771,6 @@ footer a:hover {
 .mock-line--progress {
     opacity: 0;
     animation: line-appear 10s infinite;
-}
-
-.mock-line--typing {
-    animation-delay: 0s;
-}
-
-.mock-line--progress {
-    animation-delay: 0s;
 }
 
 /* Results: hidden initially, appear after lock cycle */
@@ -820,12 +813,12 @@ footer a:hover {
 }
 
 .mock-overlay--without {
-    animation: overlay-without 10s infinite;
+    animation: overlay-lock 10s infinite;
 }
 
 .mock-overlay--with {
     background: rgba(0, 0, 0, 0.85);
-    animation: overlay-with 10s infinite;
+    animation: overlay-lock 10s infinite;
 }
 
 /*
@@ -839,17 +832,7 @@ footer a:hover {
  * 90-100% (9-10s)  : Reset pause
  */
 
-/* Without: lock overlay stays fully opaque */
-@keyframes overlay-without {
-    0%, 28%    { opacity: 0; }
-    35%        { opacity: 1; }
-    62%        { opacity: 1; }
-    68%        { opacity: 0; }
-    100%       { opacity: 0; }
-}
-
-/* With: lock overlay is semi-transparent so work shows through */
-@keyframes overlay-with {
+@keyframes overlay-lock {
     0%, 28%    { opacity: 0; }
     35%        { opacity: 1; }
     62%        { opacity: 1; }
@@ -1001,10 +984,6 @@ footer a:hover {
 
     .download-section {
         padding: 60px 0;
-    }
-
-    .app-preview {
-        max-width: 100%;
     }
 
     .hero-preview {
