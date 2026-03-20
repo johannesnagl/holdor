@@ -2,7 +2,7 @@
 
 > Holds the door. So your agents don't have to stop.
 
-Holdor is a free, open-source native macOS menu bar app that prevents your system from sleeping while agentic AI tools are running.
+Holdor is a free, open-source native macOS menu bar app that prevents your system from sleeping while agentic AI tools are running. It is signed and notarized by Apple.
 
 ## Problem
 Company security policies require locking your screen when you step away. But when macOS locks, it eventually sleeps — killing long-running AI agents like Claude, Cursor, Windsurf, and VS Code coding assistants. The workaround of carrying your laptop everywhere is absurd.
@@ -14,12 +14,19 @@ Holdor uses macOS's built-in `caffeinate` command, tied to each app's process ID
 - Native macOS menu bar app (Swift/SwiftUI, no Electron)
 - Watches multiple apps simultaneously
 - Auto-detects when apps launch or quit
-- Built-in support for Claude, Cursor, Windsurf, VS Code, Zed, ChatGPT, and Warp
+- Built-in support for Claude Desktop, Cursor, Windsurf, VS Code, Zed, ChatGPT, Warp, Terminal, iTerm, and Ghostty
+- Terminal apps cover CLI-based AI tools like Claude Code and OpenCode
 - Add any custom app via native Finder file picker
 - Built-in Lock Screen button
 - Pause/resume protection
 - Launch at login support
 - Remembers preferences across restarts
+- Signed and notarized by Apple — no Gatekeeper warnings
+
+## FAQ
+- **Does Holdor drain battery?** No. It's a native Swift app with negligible resource usage. It only prevents idle sleep while watched apps are running.
+- **Can I lock my screen?** Yes — that's the point. Display sleeps and screen locks normally. Only idle sleep is prevented.
+- **Which apps are supported?** 10 built-in apps plus any custom app via Finder. Terminal apps cover CLI tools like Claude Code.
 
 ## Technical Details
 - Platform: macOS 13 (Ventura) or later
@@ -29,7 +36,7 @@ Holdor uses macOS's built-in `caffeinate` command, tied to each app's process ID
 - License: MIT
 - Repository: https://github.com/johannesnagl/holdor.app
 - Website: https://holdor.app
-- Download: https://github.com/johannesnagl/holdor.app/releases
+- Download: https://github.com/johannesnagl/holdor.app/releases/download/v1.1.0/Holdor-1.1.0-arm64.dmg
 
 ## Building
 ```bash
@@ -38,4 +45,4 @@ swift build -c release
 ```
 
 ## Author
-Johannes Nagl — https://github.com/johannesnagl
+Johannes Nagl — https://github.com/johannesnagl — https://www.linkedin.com/in/johannesnagl/

@@ -16,11 +16,15 @@
     <meta property="og:description" content="Free macOS menu bar app that prevents sleep while AI coding agents are running. Lock your screen, walk away, agents keep working.">
     <meta property="og:site_name" content="Holdor">
     <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://holdor.app/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Holdor - Holds the Door. So Your Agents Don't Have to Stop.">
     <meta name="twitter:description" content="Free macOS menu bar app that prevents sleep while AI coding agents are running. Lock your screen, walk away, agents keep working.">
+    <meta name="twitter:image" content="https://holdor.app/og-image.png">
 
     <!-- Favicon -->
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -29,14 +33,23 @@
     <link rel="manifest" href="/site.webmanifest">
 
     <!-- Theme -->
-    <meta name="theme-color" content="#0a0a0f">
+    <meta name="theme-color" content="#0b0b0f">
     <meta name="color-scheme" content="dark">
 
-    <!-- Preload critical CSS -->
-    <style>:root{--bg:#0a0a0f;--text:#e4e4ed}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0}</style>
+    <!-- Fonts — non-blocking via link tags -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="en" href="https://holdor.app/">
+    <link rel="alternate" hreflang="x-default" href="https://holdor.app/">
+
+    <!-- Critical inline styles -->
+    <style>:root{--bg:#0b0b0f;--text:#e0ddd5}body{background:var(--bg);color:var(--text);margin:0;font-family:'IBM Plex Mono',monospace}</style>
     <link rel="stylesheet" href="style.css">
 
-    <!-- Structured Data -->
+    <!-- Structured Data — SoftwareApplication -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -47,18 +60,67 @@
         "description": "A native macOS menu bar app that prevents your system from sleeping while agentic AI tools are running. Lock your screen, walk away, and your agents keep working.",
         "url": "https://holdor.app",
         "downloadUrl": "https://github.com/johannesnagl/holdor.app/releases/download/v1.1.0/Holdor-1.1.0-arm64.dmg",
-        "softwareVersion": "1.0.0",
+        "softwareVersion": "1.1.0",
         "author": {
             "@type": "Person",
             "name": "Johannes Nagl",
-            "url": "https://github.com/johannesnagl"
+            "url": "https://github.com/johannesnagl",
+            "sameAs": [
+                "https://www.linkedin.com/in/johannesnagl/",
+                "https://github.com/johannesnagl"
+            ]
         },
+        "sameAs": [
+            "https://github.com/johannesnagl/holdor.app"
+        ],
         "license": "https://opensource.org/licenses/MIT",
         "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD"
         }
+    }
+    </script>
+
+    <!-- Structured Data — FAQ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How does Holdor prevent macOS from sleeping?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Holdor uses macOS's built-in caffeinate command, tied to each app's process ID (caffeinate -i -w PID). This prevents idle sleep while allowing the display to sleep normally. When the watched app quits, the caffeinate assertion is automatically released."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Holdor drain my battery?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Holdor itself uses negligible resources — it's a native Swift app with no Electron runtime. It prevents idle sleep only while watched apps are running, so your Mac will sleep normally when those apps are closed."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Which AI coding tools does Holdor support?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Holdor has built-in support for Claude Desktop, Cursor, Windsurf, VS Code, Zed, ChatGPT, Warp, Terminal, iTerm, and Ghostty. You can also add any macOS app via the native Finder file picker. Terminal apps cover CLI tools like Claude Code and OpenCode."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I lock my screen while Holdor is active?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes — that's exactly the point. Holdor prevents idle sleep but allows the display to sleep and the screen to lock. Your security policy is satisfied while your AI agents keep running in the background."
+                }
+            }
+        ]
     }
     </script>
 </head>
@@ -75,56 +137,74 @@
     </header>
 
     <main id="main">
+
+        <!-- ===== HERO ===== -->
         <section class="hero" aria-labelledby="hero-heading">
-            <div class="hero-badge" aria-hidden="true">Free &amp; Open Source</div>
-            <h1 id="hero-heading"><span class="hero-name">Holdor</span>Holds the door.<br><span class="hero-accent">So your agents don't have to stop.</span></h1>
-            <p class="hero-sub">
-                Lock your screen without killing your AI agents.
-                Holdor prevents macOS from sleeping while Claude, Cursor, Windsurf, VS Code, and other AI tools are running.
+            <div class="hero-badge reveal">SYS // Free &amp; Open Source</div>
+            <h1 id="hero-heading" class="reveal"><span class="hero-name">Holdor</span>Holds<br>the door.</h1>
+            <p class="hero-tagline reveal">
+                <strong>Lock your screen. Walk away.</strong> Holdor prevents macOS from sleeping while your AI agents are running. Claude, Cursor, Windsurf, VS Code, terminals &mdash; all protected.
             </p>
-            <div class="btn-group">
+            <div class="hero-actions btn-group reveal">
                 <a href="#download" class="btn" role="button">Download for macOS</a>
                 <a href="https://paypal.me/jollife" class="btn-secondary" role="button" rel="noopener">Buy me a Pasta</a>
             </div>
 
-            <div class="app-preview" role="img" aria-label="Holdor app interface showing active sleep protection with Claude being monitored">
-                <div class="app-preview-header">
-                    <div class="app-preview-dot" aria-hidden="true"></div>
-                    <span class="app-preview-title">Holding the door</span>
+            <div class="door-container" aria-hidden="true">
+                <div class="door-frame">
+                    <div class="door-panel"></div>
+                    <div class="door-status">Active</div>
                 </div>
-                <div class="app-preview-subtitle">Sleep blocked · Screen lock still active</div>
-                <div class="app-preview-row">
-                    <span class="app-preview-row-label">Watching</span>
-                    <span class="app-preview-app">
-                        <span class="app-preview-app-dot" style="background: #22c55e" aria-hidden="true"></span>
-                        Claude
-                    </span>
-                </div>
-                <div class="app-preview-row">
-                    <span class="app-preview-row-label">Agentic App is running</span>
-                    <span class="app-preview-row-value active">Yes</span>
-                </div>
-                <div class="app-preview-divider" aria-hidden="true"></div>
-                <div class="app-preview-btn" aria-hidden="true">Lock Screen</div>
             </div>
         </section>
 
-        <section class="problem" id="problem" aria-labelledby="problem-heading">
+        <!-- ===== LIVE PREVIEW ===== -->
+        <section aria-label="App preview">
+            <div class="app-preview-wrapper">
+                <div class="app-preview-label reveal">Live Preview</div>
+                <div class="app-preview reveal" role="img" aria-label="Holdor app interface showing active sleep protection">
+                    <div class="app-preview-header">
+                        <div class="app-preview-dot" aria-hidden="true"></div>
+                        <span class="app-preview-title">Holding the door</span>
+                    </div>
+                    <div class="app-preview-subtitle">Sleep blocked // Screen lock active</div>
+                    <div class="app-preview-row">
+                        <span class="app-preview-row-label">Watching</span>
+                        <span class="app-preview-app">
+                            <span class="app-preview-app-dot" style="background: #22c55e" aria-hidden="true"></span>
+                            Claude
+                        </span>
+                    </div>
+                    <div class="app-preview-row">
+                        <span class="app-preview-row-label">Agent Status</span>
+                        <span class="app-preview-row-value active">Running</span>
+                    </div>
+                    <div class="app-preview-btn" aria-hidden="true">Lock Screen</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PROBLEM ===== -->
+        <section id="problem" aria-labelledby="problem-heading">
             <div class="container">
-                <h2 id="problem-heading">The Problem</h2>
-                <div class="problem-grid" role="list">
-                    <article class="card" role="listitem">
-                        <div class="card-icon" role="img" aria-label="Lock icon">&#x1F512;</div>
+                <div class="section-header reveal">
+                    <span class="section-label">Alert</span>
+                    <h2 id="problem-heading" class="section-title">The Problem</h2>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="problem-grid reveal" role="list">
+                    <article class="problem-card" role="listitem">
+                        <div class="problem-card-label">Warning 01</div>
                         <h3>Security Policy</h3>
-                        <p>Your company requires locking your screen when you step away. Good practice.</p>
+                        <p>Your company requires locking the screen when you step away. Non-negotiable.</p>
                     </article>
-                    <article class="card" role="listitem">
-                        <div class="card-icon" role="img" aria-label="Sleep icon">&#x1F4A4;</div>
+                    <article class="problem-card" role="listitem">
+                        <div class="problem-card-label">Warning 02</div>
                         <h3>macOS Sleeps</h3>
-                        <p>Locking the screen triggers idle sleep. Your long-running AI agents get interrupted.</p>
+                        <p>Lock triggers idle sleep. Your long-running AI agents get killed mid-task.</p>
                     </article>
-                    <article class="card" role="listitem">
-                        <div class="card-icon" role="img" aria-label="Laptop icon">&#x1F4BB;</div>
+                    <article class="problem-card" role="listitem">
+                        <div class="problem-card-label">Warning 03</div>
                         <h3>The Workaround</h3>
                         <p>Carry your laptop everywhere? That's not a solution. That's a problem.</p>
                     </article>
@@ -132,53 +212,62 @@
             </div>
         </section>
 
-        <section class="solution" id="solution" aria-labelledby="solution-heading">
+        <!-- ===== SOLUTION ===== -->
+        <section id="solution" aria-labelledby="solution-heading">
             <div class="container">
-                <h2 id="solution-heading">The Solution</h2>
-                <p class="section-sub">Holdor lives in your menu bar. One click to hold the door open for your agents.</p>
-                <ol class="steps" role="list">
+                <div class="section-header reveal">
+                    <span class="section-label">Protocol</span>
+                    <h2 id="solution-heading" class="section-title">The Solution</h2>
+                    <div class="section-rule"></div>
+                </div>
+                <ol class="steps reveal" role="list">
                     <li class="step" role="listitem">
                         <div class="step-num" aria-hidden="true">1</div>
                         <h3>Launch Holdor</h3>
-                        <p>A door icon appears in your menu bar. No dock icon, no windows, no clutter.</p>
+                        <p>Door icon appears in the menu bar. No dock icon, no windows, no clutter.</p>
                     </li>
                     <li class="step" role="listitem">
                         <div class="step-num" aria-hidden="true">2</div>
                         <h3>Select Your Apps</h3>
-                        <p>Toggle which agentic apps to protect. Holdor detects running apps automatically.</p>
+                        <p>Toggle which apps to protect. Holdor auto-detects running processes.</p>
                     </li>
                     <li class="step" role="listitem">
                         <div class="step-num" aria-hidden="true">3</div>
                         <h3>Lock &amp; Walk Away</h3>
-                        <p>Lock your screen with confidence. Your agents keep working. Holdor holds the door.</p>
+                        <p>Your agents keep working. Holdor holds the door.</p>
                     </li>
                 </ol>
             </div>
         </section>
 
-        <section class="features" id="features" aria-labelledby="features-heading">
+        <!-- ===== FEATURES ===== -->
+        <section id="features" aria-labelledby="features-heading">
             <div class="container">
-                <h2 id="features-heading">Features</h2>
-                <div class="feature-grid" role="list">
+                <div class="section-header reveal">
+                    <span class="section-label">Specs</span>
+                    <h2 id="features-heading" class="section-title">Features</h2>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="feature-grid reveal" role="list">
                     <article class="feature" role="listitem">
                         <h3>Menu Bar Native</h3>
-                        <p>Lives quietly in your menu bar. No dock icon, no main window. Just works.</p>
+                        <p>Lives in the menu bar. No dock icon, no main window. Zero intrusion.</p>
                     </article>
                     <article class="feature" role="listitem">
                         <h3>Auto-Detection</h3>
-                        <p>Automatically detects when supported apps launch or quit. No manual PID hunting.</p>
+                        <p>Detects when supported apps launch or quit. No manual PID hunting.</p>
                     </article>
                     <article class="feature" role="listitem">
-                        <h3>Smart Caffeination</h3>
-                        <p>Uses macOS caffeinate tied to each app's process. Display sleeps, CPU stays awake.</p>
+                        <h3>Smart Caffeinate</h3>
+                        <p>Uses macOS caffeinate tied to each process. Display sleeps, CPU stays awake.</p>
                     </article>
                     <article class="feature" role="listitem">
-                        <h3>Remembers Preferences</h3>
-                        <p>Your app selections persist across restarts. Set it once, forget about it.</p>
+                        <h3>Persistent Config</h3>
+                        <p>App selections persist across restarts. Set it once, forget about it.</p>
                     </article>
                     <article class="feature" role="listitem">
-                        <h3>7+ Apps Built In</h3>
-                        <p>Claude, Cursor, Windsurf, VS Code, Zed, ChatGPT, and Warp. Add any app via Finder.</p>
+                        <h3>10+ Apps Built In</h3>
+                        <p>Claude, Cursor, Windsurf, VS Code, Zed, ChatGPT, Warp, Terminal, iTerm, Ghostty.</p>
                     </article>
                     <article class="feature" role="listitem">
                         <h3>Lightweight</h3>
@@ -188,23 +277,61 @@
             </div>
         </section>
 
-        <section class="download" id="download" aria-labelledby="download-heading">
+        <!-- ===== DOWNLOAD ===== -->
+        <section class="download-section" id="download" aria-labelledby="download-heading">
             <div class="container">
-                <h2 id="download-heading">Get Holdor</h2>
-                <p class="section-sub">Free, open source, built with Swift.</p>
-                <div class="btn-group">
-                    <a href="https://github.com/johannesnagl/holdor.app/releases/download/v1.1.0/Holdor-1.1.0-arm64.dmg" class="btn" role="button" rel="noopener">Download v1.1.0 for macOS</a>
+                <div class="section-title reveal" id="download-heading">Get Holdor</div>
+                <p class="download-sub reveal">Free, open source, built with Swift.</p>
+                <div class="btn-group btn-group--center reveal">
+                    <a href="https://github.com/johannesnagl/holdor.app/releases/download/v1.1.0/Holdor-1.1.0-arm64.dmg" class="btn" role="button" rel="noopener">Download v1.1.0</a>
                     <a href="https://paypal.me/jollife" class="btn-secondary" role="button" rel="noopener">Buy me a Pasta</a>
                 </div>
-                <p class="download-note">Requires macOS 13 (Ventura) or later. Signed and notarized by Apple.</p>
+                <p class="download-note reveal">Requires macOS 13+ // Signed and notarized by Apple</p>
             </div>
         </section>
     </main>
 
     <footer role="contentinfo">
         <div class="container">
-            <p>Holdor is open source. <a href="https://github.com/johannesnagl/holdor.app" rel="noopener">View on GitHub</a> · <a href="https://paypal.me/jollife" rel="noopener">Buy me a Pasta</a> · <a href="https://www.linkedin.com/in/johannesnagl/" rel="noopener">LinkedIn</a></p>
+            <p>
+                <a href="https://github.com/johannesnagl/holdor.app" rel="noopener">GitHub</a>
+                <span class="footer-sep">//</span>
+                <a href="https://paypal.me/jollife" rel="noopener">Buy me a Pasta</a>
+                <span class="footer-sep">//</span>
+                <a href="https://www.linkedin.com/in/johannesnagl/" rel="noopener">LinkedIn</a>
+                <span class="footer-sep">//</span>
+                MIT License
+            </p>
         </div>
     </footer>
+
+    <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const children = entry.target.querySelectorAll('[role="listitem"]');
+                if (children.length > 0) {
+                    children.forEach((child, j) => {
+                        child.style.opacity = '0';
+                        child.style.transform = 'translateY(16px)';
+                        child.style.transition = `opacity 0.5s ease ${j * 0.1}s, transform 0.5s ease ${j * 0.1}s`;
+                        requestAnimationFrame(() => {
+                            child.style.opacity = '1';
+                            child.style.transform = 'translateY(0)';
+                        });
+                    });
+                }
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
