@@ -1,5 +1,12 @@
 import SwiftUI
 
+// Website color palette — Raw Control Room
+extension Color {
+    static let holdorAmber = Color(red: 229/255, green: 149/255, blue: 0/255)       // #e59500
+    static let holdorAmberDim = Color(red: 229/255, green: 149/255, blue: 0/255).opacity(0.1)
+    static let holdorGreen = Color(red: 34/255, green: 197/255, blue: 94/255)        // #22c55e
+}
+
 struct MenuView: View {
     @ObservedObject var monitor: AppMonitor
     let onQuit: () -> Void
@@ -9,17 +16,17 @@ struct MenuView: View {
 
     private var headerSubtitle: String {
         if !monitor.enabled {
-            return "Protection disabled \u{00B7} Mac sleeps normally"
+            return "Protection disabled // Mac sleeps normally"
         }
         let running = monitor.watchedRunningCount
         let watched = monitor.watchedApps.count
         if watched == 0 {
-            return "No apps selected \u{00B7} Add apps to watch"
+            return "No apps selected // Add apps to watch"
         }
         if running == 0 {
             return "0 of \(watched) watched app\(watched == 1 ? "" : "s") running"
         }
-        return "Sleep blocked \u{00B7} Screen lock still active"
+        return "Sleep blocked // Screen lock still active"
     }
 
     var body: some View {
@@ -29,7 +36,7 @@ struct MenuView: View {
                 HStack {
                     HStack(spacing: 8) {
                         Circle()
-                            .fill(isActive ? Color.green : Color.gray)
+                            .fill(isActive ? Color.holdorGreen : Color.gray)
                             .frame(width: 10, height: 10)
                         Text(isActive ? "Holding the door" : "Standing by")
                             .font(.system(size: 15, weight: .bold))
@@ -115,21 +122,21 @@ struct MenuView: View {
                 HStack(spacing: 6) {
                     Image(systemName: "pause.circle.fill")
                         .font(.system(size: 12))
-                        .foregroundColor(.orange)
+                        .foregroundColor(.holdorAmber)
                     Text("Protection paused")
                         .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.orange)
+                        .foregroundColor(.holdorAmber)
                     Spacer()
                     Button("Resume") {
                         monitor.enabled = true
                     }
                     .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.green)
+                    .foregroundColor(.holdorAmber)
                     .buttonStyle(.plain)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(Color.orange.opacity(0.1))
+                .background(Color.holdorAmberDim)
             }
 
             Divider().padding(.horizontal, 8)
@@ -144,7 +151,7 @@ struct MenuView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 10)
-                .background(monitor.enabled ? Color.green : Color.orange)
+                .background(monitor.enabled ? Color.holdorAmber : Color.holdorAmber.opacity(0.5))
                 .foregroundColor(.black)
                 .cornerRadius(8)
             }
@@ -193,7 +200,7 @@ struct MenuView: View {
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: monitor.isWatching(app) ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(monitor.isWatching(app) ? .green : .secondary)
+                        .foregroundColor(monitor.isWatching(app) ? .holdorAmber : .secondary)
                         .font(.system(size: 14))
                     Text(app.name)
                         .font(.system(size: 13))
@@ -214,7 +221,7 @@ struct MenuView: View {
             }
             Text(monitor.isRunning(app) ? "Running" : "Not Running")
                 .font(.system(size: 11))
-                .foregroundColor(monitor.isRunning(app) ? .green : .secondary)
+                .foregroundColor(monitor.isRunning(app) ? .holdorGreen : .secondary)
         }
     }
 
@@ -255,7 +262,7 @@ struct GreenSwitchStyle: ToggleStyle {
             configuration.label
             ZStack(alignment: isOn ? .trailing : .leading) {
                 Capsule()
-                    .fill(isOn ? Color.green : Color.gray.opacity(0.3))
+                    .fill(isOn ? Color.holdorAmber : Color.gray.opacity(0.3))
                     .frame(width: 40, height: 24)
                 Circle()
                     .fill(Color.white)
