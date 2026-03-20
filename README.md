@@ -55,17 +55,17 @@ The binary will be at `app/.build/release/Holdor`.
 ### Building a DMG
 
 ```bash
-./scripts/build-dmg.sh 1.1.0
+./scripts/build-dmg.sh <version>
 ```
 
-This creates an unsigned DMG at `dist/Holdor-1.1.0-arm64.dmg`.
+This creates an unsigned DMG at `dist/Holdor-<version>-arm64.dmg`.
 
 To build a **signed and notarized** DMG:
 
 ```bash
 SIGN_IDENTITY="Developer ID Application: Your Name (TEAM_ID)" \
 NOTARIZE_PROFILE="your-keychain-profile" \
-./scripts/build-dmg.sh 1.1.0
+./scripts/build-dmg.sh <version>
 ```
 
 Setting up code signing requires:
