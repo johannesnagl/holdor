@@ -259,7 +259,7 @@ nav {
 
 .hero-ph {
     grid-column: 1;
-    margin-top: 0.5rem;
+    margin-top: -0.75rem;
 }
 
 .hero-ph img {
