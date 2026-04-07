@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://holdor.app/sitemap.xml
+Sitemap: https://holdor.yetanother.one/sitemap.xml

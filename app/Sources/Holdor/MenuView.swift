@@ -64,7 +64,7 @@ struct MenuView: View {
                         }
                         Divider()
                         Button {
-                            NSWorkspace.shared.open(URL(string: "https://holdor.app")!)
+                            NSWorkspace.shared.open(URL(string: "https://holdor.yetanother.one")!)
                         } label: {
                             Label("Go to Website", systemImage: "globe")
                         }
