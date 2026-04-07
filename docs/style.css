@@ -771,6 +771,12 @@ footer a:hover {
     color: var(--rule-light);
 }
 
+.footer-claim {
+    margin-top: 12px;
+    font-size: 11px;
+    opacity: 0.7;
+}
+
 /* ---- Comparison ---- */
 
 .comparison-grid {
