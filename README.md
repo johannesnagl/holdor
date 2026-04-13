@@ -41,6 +41,18 @@ Built-in support for 10 apps:
 
 Add any other app via the "Add app..." button.
 
+## Install
+
+### Homebrew
+
+```bash
+brew install --cask johannesnagl/tap/holdor
+```
+
+### Direct download
+
+Grab the signed and notarized DMG from the [latest release](https://github.com/johannesnagl/holdor/releases/latest).
+
 ## Building
 
 Requires Swift 5.9+ and macOS 13+.
@@ -72,6 +84,16 @@ Setting up code signing requires:
 1. An [Apple Developer Program](https://developer.apple.com/programs/) membership
 2. A **Developer ID Application** certificate
 3. A notarization keychain profile: `xcrun notarytool store-credentials "your-keychain-profile" --apple-id "you@example.com" --team-id "TEAM_ID"`
+
+### Updating the Homebrew tap
+
+After publishing a new GitHub release with the DMG attached, bump the cask in [johannesnagl/homebrew-tap](https://github.com/johannesnagl/homebrew-tap):
+
+```bash
+./scripts/update-tap.sh <version>
+```
+
+The script downloads the release DMG, computes its SHA-256, updates `Casks/holdor.rb`, and pushes the commit.
 
 ## Running
 
