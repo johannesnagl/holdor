@@ -1,4 +1,4 @@
-# Holdor
+<h1 align="center">Holdor <img src="https://img.shields.io/github/downloads/johannesnagl/holdor/total" alt="total downloads"></h1>
 
 **Holds the door. So your agents don't have to stop.**
 
