@@ -107,6 +107,14 @@ Or copy it to `/Applications` and add to Login Items.
 
 If Holdor saves you from carrying your laptop around, [buy me a pasta](https://paypal.me/jollife).
 
+## Contributors
+
+Thanks to everyone who has contributed to Holdor:
+
+- [@mocantimoteidavid](https://github.com/mocantimoteidavid) — Reporting that the popover wouldn't close on an outside click
+- [@wburningham](https://github.com/wburningham) — Reporting the Homebrew `depends_on` breakage affecting this cask
+- [@tobiashochguertel](https://github.com/tobiashochguertel) (Tobias Hochgürtel) — Homebrew `depends_on` syntax fix
+
 ## License
 
 MIT
